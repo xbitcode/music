@@ -30,6 +30,9 @@ def private_panel(_):
             InlineKeyboardButton(text=_["S_B_6"], user_id=config.OWNER_ID),
             InlineKeyboardButton(text=_["S_B_5"], url=config.SUPPORT_CHANNEL),
         ],
+        [
+            InlineKeyboardButton(text=_["S_B_6"], url=config.SUPPORT_CHANNEL),
+        ],
         [ InlineKeyboardButton(text="📱Mᴏᴠɪᴇs+Sᴇʀɪᴇs+Aɴɪᴍᴇ 🎬", url=f"https://t.me/okflix_ottbot?start=start")],
     ]
     return buttons
