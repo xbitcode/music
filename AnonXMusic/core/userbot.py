@@ -1,3 +1,4 @@
+import sys
 from pyrogram import Client
 
 import config
@@ -65,6 +66,9 @@ class Userbot(Client):
                 exit()
             self.one.id = self.one.me.id
             self.one.name = self.one.me.mention
+            if not self.one.me.username:
+                LOGGER(__name__).error("Please set username to assistants and restart the bot again")
+                sys.exit()
             self.one.username = self.one.me.username
             assistantids.append(self.one.id)
             LOGGER(__name__).info(f"Assistant Started as {self.one.name}")
@@ -86,6 +90,9 @@ class Userbot(Client):
                 exit()
             self.two.id = self.two.me.id
             self.two.name = self.two.me.mention
+            if not self.two.me.username:
+                LOGGER(__name__).error("Please set username to assistants and restart the bot again")
+                sys.exit()
             self.two.username = self.two.me.username
             assistantids.append(self.two.id)
             LOGGER(__name__).info(f"Assistant Two Started as {self.two.name}")
@@ -107,6 +114,9 @@ class Userbot(Client):
                 exit()
             self.three.id = self.three.me.id
             self.three.name = self.three.me.mention
+            if not self.three.me.username:
+                LOGGER(__name__).error("Please set username to assistants and restart the bot again")
+                sys.exit()
             self.three.username = self.three.me.username
             assistantids.append(self.three.id)
             LOGGER(__name__).info(f"Assistant Three Started as {self.three.name}")
@@ -128,6 +138,9 @@ class Userbot(Client):
                 exit()
             self.four.id = self.four.me.id
             self.four.name = self.four.me.mention
+            if not self.four.me.username:
+                LOGGER(__name__).error("Please set username to assistants and restart the bot again")
+                sys.exit()
             self.four.username = self.four.me.username
             assistantids.append(self.four.id)
             LOGGER(__name__).info(f"Assistant Four Started as {self.four.name}")
@@ -149,6 +162,9 @@ class Userbot(Client):
                 exit()
             self.five.id = self.five.me.id
             self.five.name = self.five.me.mention
+            if not self.five.me.username:
+                LOGGER(__name__).error("Please set username to assistants and restart the bot again")
+                sys.exit()
             self.five.username = self.five.me.username
             assistantids.append(self.five.id)
             LOGGER(__name__).info(f"Assistant Five Started as {self.five.name}")

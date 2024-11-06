@@ -5,11 +5,11 @@ import config
 from AnonXMusic import app
 from AnonXMusic.core.call import Anony, autoend
 from AnonXMusic.utils.database import get_client, is_active_chat, is_autoend
-
+from pyrogram.enums import ChatType
 
 async def auto_leave():
     if config.AUTO_LEAVING_ASSISTANT:
-        while not await asyncio.sleep(10000):
+        while not await asyncio.sleep(config.ASSISTANT_LEAVE_TIME):
             from AnonXMusic.core.userbot import assistants
 
             for num in assistants:
