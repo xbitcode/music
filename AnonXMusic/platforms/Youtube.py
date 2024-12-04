@@ -4,6 +4,7 @@ import re
 import json
 from typing import Union
 
+import aiohttp
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
@@ -294,8 +295,27 @@ class YouTubeAPI:
         title: Union[bool, str] = None,
     ) -> str:
         if videoid:
-            link = self.base + link
+            # link = self.base + link
+            download_link = f"https://sapi.okflix.top/tube/stream/{link}.mp3"
         loop = asyncio.get_running_loop()
+        async def audio_api_dl():
+            filename = f"{link}.mp3"
+            filepath = os.path.join("downloads", filename)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(download_link) as response:
+                    if response.status == 200:
+                        with open(filepath, 'wb') as f:
+                            while True:
+                                chunk = await response.content.read(8192)
+                                if not chunk:
+                                    break
+                                f.write(chunk)
+                        return filepath
+                    else:
+                        print(f"Failed to download. Status code: {response.status}")
+                        return None
+            
+
         def audio_dl():
             ydl_optssx = {
                 "format": "bestaudio/best",
@@ -411,5 +431,6 @@ class YouTubeAPI:
                    downloaded_file = await loop.run_in_executor(None, video_dl)
         else:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, audio_dl)
+            # downloaded_file = await loop.run_in_executor(None, audio_dl)
+            downloaded_file = await audio_api_dl()
         return downloaded_file, direct
