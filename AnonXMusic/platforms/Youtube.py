@@ -301,6 +301,8 @@ class YouTubeAPI:
         async def audio_api_dl():
             filename = f"{link}.mp3"
             filepath = os.path.join("downloads", filename)
+            if os.path.exists(filepath):
+                return filepath
             async with aiohttp.ClientSession() as session:
                 async with session.get(download_link) as response:
                     if response.status == 200:
