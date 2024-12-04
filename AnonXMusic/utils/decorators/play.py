@@ -105,7 +105,9 @@ def PlayWrapper(command):
             if "-v" in message.text:
                 video = True
             else:
-                video = True if message.command[0][1] == "v" else None
+                await message.reply_text("Video play is temporarily disabled. \n\nPlay audio only.")
+                # video = True if message.command[0][1] == "v" else None
+                video = None
         if message.command[0][-1] == "e":
             if not await is_active_chat(chat_id):
                 return await message.reply_text(_["play_16"])
