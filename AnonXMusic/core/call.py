@@ -17,6 +17,7 @@ from pytgcalls.types.input_stream.quality import HighQualityAudio, MediumQuality
 from pytgcalls.types.stream import StreamAudioEnded
 
 import config
+from config import autoclean
 from AnonXMusic import LOGGER, YouTube, app
 from AnonXMusic.misc import db
 from AnonXMusic.utils.database import (
@@ -34,7 +35,6 @@ from AnonXMusic.utils.database import (
 from AnonXMusic.utils.exceptions import AssistantErr
 from AnonXMusic.utils.formatters import check_duration, seconds_to_min, speed_converter
 from AnonXMusic.utils.inline.play import stream_markup
-from AnonXMusic.utils.stream.autoclear import auto_clean
 from AnonXMusic.utils.thumbnails import get_thumb
 from strings import get_string
 
@@ -339,7 +339,9 @@ class Call(PyTgCalls):
             else:
                 loop = loop - 1
                 await set_loop(chat_id, loop)
-            await auto_clean(popped)
+            if popped:
+                rem = popped["file"]
+                autoclean.remove(rem)
             if not check:
                 await _clear_(chat_id)
                 return await client.leave_group_call(chat_id)

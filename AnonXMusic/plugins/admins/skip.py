@@ -8,9 +8,8 @@ from AnonXMusic.misc import db
 from AnonXMusic.utils.database import get_loop
 from AnonXMusic.utils.decorators import AdminRightsCheck
 from AnonXMusic.utils.inline import close_markup, stream_markup
-from AnonXMusic.utils.stream.autoclear import auto_clean
 from AnonXMusic.utils.thumbnails import get_thumb
-from config import BANNED_USERS
+from config import BANNED_USERS,autoclean
 
 
 @app.on_message(
@@ -38,7 +37,8 @@ async def skip(cli, message: Message, _, chat_id):
                             except:
                                 return await message.reply_text(_["admin_12"])
                             if popped:
-                                await auto_clean(popped)
+                                rem = popped["file"]
+                                autoclean.remove(rem)
                             if not check:
                                 try:
                                     await message.reply_text(
@@ -66,7 +66,8 @@ async def skip(cli, message: Message, _, chat_id):
         try:
             popped = check.pop(0)
             if popped:
-                await auto_clean(popped)
+                rem = popped["file"]
+                autoclean.remove(rem)
             if not check:
                 await message.reply_text(
                     text=_["admin_6"].format(

@@ -62,6 +62,11 @@ TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 2073741824))
 # Checkout https://www.gbmb.org/mb-to-bytes for converting mb to bytes
 
 
+TUBED_API = getenv("TUBED_API" , None)
+CACHE_DURATION = int(getenv("CACHE_DURATION" , "86400"))  #60*60*24
+CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "3600"))   #60*60
+
+
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
 STRING1 = getenv("STRING_SESSION", None)
 STRING2 = getenv("STRING_SESSION2", None)
@@ -76,7 +81,7 @@ lyrical = {}
 votemode = {}
 autoclean = []
 confirmer = {}
-
+file_cache: dict[str, float] = {}
 
 START_IMG_URL = ["https://te.legra.ph/file/5fd13f2cc0d03bce9f7f2.jpg",
                  "https://te.legra.ph/file/c15d01b3e6b40ea141dc9.jpg",
