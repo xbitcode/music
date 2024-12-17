@@ -126,7 +126,6 @@ async def restart_(_, message):
             pass
 
     try:
-        shutil.rmtree("downloads")
         shutil.rmtree("raw_files")
         shutil.rmtree("cache")
     except:

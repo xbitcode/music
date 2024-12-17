@@ -373,6 +373,8 @@ class YouTubeAPI:
                                 if response.status == 200:
                                     with open(output_file, 'wb') as f:
                                         async for chunk in response.content.iter_chunked(64 * 1024):
+                                            if not chunk:
+                                                break
                                             f.write(chunk)
 
                                     if os.path.getsize(output_file) > 0:
@@ -385,6 +387,11 @@ class YouTubeAPI:
                                             continue
                                         return None, False
 
+                    except RuntimeError as e:
+                        if "Session is closed" in str(e):
+                            if retry >= max_retries - 1:
+                                return None, False
+                            await asyncio.sleep(min(2 ** retry, 15))
                     except aiohttp.ClientError:
                         if retry >= max_retries - 1:
                             return None, False
@@ -392,7 +399,8 @@ class YouTubeAPI:
 
             return None, False
 
-        except Exception:
+        except Exception as e:
+            print(e)
             return None, False
     async def download(
         self,
