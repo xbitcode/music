@@ -143,8 +143,7 @@ async def welcome(client, message: Message):
                     (message.chat.description and re.search(r'[\u1000-\u109F]', message.chat.description)):
                         await blacklist_chat(message.chat.id)
                         await message.reply_text("This group is not allowed to play songs")
-                        await app.send_message(LOGGER_ID,f"This group has been blacklisted automatically due to myanmar characters in the chat title, description or message \n 
-                                   Title:{message.chat.title} \n ID:{message.chat.id}")
+                        await app.send_message(LOGGER_ID, f"This group has been blacklisted automatically due to myanmar characters in the chat title, description or message \n Title:{message.chat.title} \n ID:{message.chat.id}")
                         return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
