@@ -410,6 +410,8 @@ class YouTubeAPI:
         
         def sp_video_dl():
             fpath = f"downloads/{vid_id}.mp4"
+            if os.path.exists(fpath):
+                return fpath
             return download_song(vid_id ,sp_title,'{"itag":18,"ext":"mp4"}' , fpath)
 
 
