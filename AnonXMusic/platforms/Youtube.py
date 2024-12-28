@@ -3,7 +3,7 @@ import os
 import re
 import json
 from typing import Union
-
+import requests
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
@@ -294,9 +294,39 @@ class YouTubeAPI:
         title: Union[bool, str] = None,
     ) -> str:
         vid_id = link
+        sp_title = await self.title(link , videoid)
         if videoid:
             link = self.base + link
         loop = asyncio.get_running_loop()
+
+        def download_song(id, title, download_widget, fpath):
+            """
+            Downloads a song from the specified URL using the provided parameters.
+
+            Parameters:
+            - id: The ID of the song.
+            - title: The title of the song.
+            - download_widget: The widget used for downloading.
+            """
+            download_url = "https://inv.owo.si/download"
+            data = {
+                'id': id,
+                'title': title,
+                'download_widget': download_widget
+            }
+
+            response = requests.post(download_url, data=data)
+            file_size =int(response.headers.get('Content-Length')) / (1024 * 1024)
+            if file_size > 100:
+                return None
+
+            if response.status_code == 200:
+                with open(fpath, "wb") as f:
+                    f.write(response.content)
+                return fpath
+            else:
+                return None
+
         def audio_dl():
             ydl_optssx = {
                 "format": "bestaudio/best",
@@ -373,32 +403,14 @@ class YouTubeAPI:
             x.download([link])
 
         def sp_audio_dl():
-            sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=251"
             fpath = f"downloads/{vid_id}.mp3"
             if os.path.exists(fpath):
                 return fpath
-            ydl_opts = {
-                'format': 'bestaudio/best',
-                'outtmpl': fpath,
-                "quiet": True,
-                "no_warnings": True,
-            }
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([sp_link])
-            return fpath
+            return download_song(vid_id ,sp_title,'{"itag":251,"ext":"webm"}' , fpath)
         
         def sp_video_dl():
-            sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=18"
             fpath = f"downloads/{vid_id}.mp4"
-            ydl_opts = {
-                "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
-                'outtmpl': fpath,
-                "quiet": True,
-                "no_warnings": True,
-            }
-            x=yt_dlp.YoutubeDL(ydl_opts)
-            x.download([sp_link])
-            return fpath
+            return download_song(vid_id ,sp_title,'{"itag":18,"ext":"mp4"}' , fpath)
 
 
         if songvideo:
@@ -410,35 +422,37 @@ class YouTubeAPI:
             fpath = f"downloads/{title}.mp3"
             return fpath
         elif video:
-            if await is_on_off(1):
-                direct = True
-                downloaded_file = await loop.run_in_executor(None, sp_video_dl)
-            else:
-                sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=18"
-                proc = await asyncio.create_subprocess_exec(
-                    "yt-dlp",
-                    "-g",
-                    "-f",
-                    "best[height<=?720][width<=?1280]",
-                    f"{sp_link}",
-                    stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.PIPE,
-                )
-                stdout, stderr = await proc.communicate()
-                if stdout:
-                    downloaded_file = stdout.decode().split("\n")[0]
-                    direct = False
-                else:
-                   file_size = await check_file_size(link)
-                   if not file_size:
-                     print("None file Size")
-                     return
-                   total_size_mb = file_size / (1024 * 1024)
-                   if total_size_mb > 250:
-                     print(f"File size {total_size_mb:.2f} MB exceeds the 100MB limit.")
-                     return None
-                   direct = True
-                   downloaded_file = await loop.run_in_executor(None, sp_video_dl)
+            direct = True
+            downloaded_file = await loop.run_in_executor(None, sp_video_dl)
+            # if await is_on_off(1):
+            #     direct = True
+            #     downloaded_file = await loop.run_in_executor(None, sp_video_dl)
+            # else:
+            #     sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=18"
+            #     proc = await asyncio.create_subprocess_exec(
+            #         "yt-dlp",
+            #         "-g",
+            #         "-f",
+            #         "best[height<=?720][width<=?1280]",
+            #         f"{sp_link}",
+            #         stdout=asyncio.subprocess.PIPE,
+            #         stderr=asyncio.subprocess.PIPE,
+            #     )
+            #     stdout, stderr = await proc.communicate()
+            #     if stdout:
+            #         downloaded_file = stdout.decode().split("\n")[0]
+            #         direct = False
+            #     else:
+            #        file_size = await check_file_size(link)
+            #        if not file_size:
+            #          print("None file Size")
+            #          return
+            #        total_size_mb = file_size / (1024 * 1024)
+            #        if total_size_mb > 250:
+            #          print(f"File size {total_size_mb:.2f} MB exceeds the 100MB limit.")
+            #          return None
+            #        direct = True
+            #        downloaded_file = await loop.run_in_executor(None, sp_video_dl)
         else:
             direct = True
             downloaded_file = await loop.run_in_executor(None, sp_audio_dl)
