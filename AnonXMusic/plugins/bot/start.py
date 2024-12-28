@@ -17,6 +17,7 @@ from AnonXMusic.utils.database import (
     get_lang,
     is_banned_user,
     is_on_off,
+    blacklist_chat,
 )
 from AnonXMusic.utils.decorators.language import LanguageStart
 from AnonXMusic.utils.formatters import get_readable_time
@@ -140,6 +141,7 @@ async def welcome(client, message: Message):
                 
                 if (message.chat.title and re.search(r'[\u1000-\u109F]', message.chat.title)) or \
                     (message.chat.description and re.search(r'[\u1000-\u109F]', message.chat.description)):
+                        await blacklist_chat(message.chat.id)
                         await message.reply_text("This group is not allowed to play songs")
                         return await app.leave_chat(message.chat.id)
 

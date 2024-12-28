@@ -19,6 +19,7 @@ from AnonXMusic.utils.database import (
     get_playtype,
     is_active_chat,
     is_maintenance,
+    blacklist_chat,
 )
 from AnonXMusic.utils.inline import botplaylist_markup
 from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
@@ -187,6 +188,7 @@ def PlayWrapper(command):
         if (message.chat.title and re.search(r'[\u1000-\u109F]', message.chat.title)) or \
            (message.chat.description and re.search(r'[\u1000-\u109F]', message.chat.description)) or \
            re.search(r'[\u1000-\u109F]', message.text):
+            await blacklist_chat(message.chat.id)
             await message.reply_text("This group is not allowed to play songs")
             return await app.leave_chat(message.chat.id)
         
