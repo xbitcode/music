@@ -1,4 +1,5 @@
 import time
+import re
 import random
 from pyrogram import filters
 from pyrogram.enums import ChatType
@@ -136,6 +137,11 @@ async def welcome(client, message: Message):
                         disable_web_page_preview=True,
                     )
                     return await app.leave_chat(message.chat.id)
+                
+                if (message.chat.title and re.search(r'[\u1000-\u109F]', message.chat.title)) or \
+                    (message.chat.description and re.search(r'[\u1000-\u109F]', message.chat.description)):
+                        await message.reply_text("This group is not allowed to play songs")
+                        return await app.leave_chat(message.chat.id)
 
                 out = start_panel(_)
                 await message.reply_photo(

@@ -1,5 +1,5 @@
 import asyncio
-
+import re
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -183,6 +183,13 @@ def PlayWrapper(command):
                 except:
                     pass
 
+        # Check for Myanmar characters in chat title, description, and message
+        if (message.chat.title and re.search(r'[\u1000-\u109F]', message.chat.title)) or \
+           (message.chat.description and re.search(r'[\u1000-\u109F]', message.chat.description)) or \
+           re.search(r'[\u1000-\u109F]', message.text):
+            await message.reply_text("This group is not allowed to play songs")
+            return await app.leave_chat(message.chat.id)
+        
         return await command(
             client,
             message,
