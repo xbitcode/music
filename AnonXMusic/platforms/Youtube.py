@@ -293,6 +293,7 @@ class YouTubeAPI:
         format_id: Union[bool, str] = None,
         title: Union[bool, str] = None,
     ) -> str:
+        vid_id = link
         if videoid:
             link = self.base + link
         loop = asyncio.get_running_loop()
@@ -371,6 +372,35 @@ class YouTubeAPI:
             x = yt_dlp.YoutubeDL(ydl_optssx)
             x.download([link])
 
+        def sp_audio_dl():
+            sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=251"
+            fpath = f"downloads/{vid_id}.mp3"
+            if os.path.exists(fpath):
+                return fpath
+            ydl_opts = {
+                'format': 'bestaudio/best',
+                'outtmpl': fpath,
+                "quiet": True,
+                "no_warnings": True,
+            }
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([sp_link])
+            return fpath
+        
+        def sp_video_dl():
+            sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=18"
+            fpath = f"downloads/{vid_id}.mp4"
+            ydl_opts = {
+                "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
+                'outtmpl': fpath,
+                "quiet": True,
+                "no_warnings": True,
+            }
+            x=yt_dlp.YoutubeDL(ydl_opts)
+            x.download([sp_link])
+            return fpath
+
+
         if songvideo:
             await loop.run_in_executor(None, song_video_dl)
             fpath = f"downloads/{title}.mp4"
@@ -382,15 +412,15 @@ class YouTubeAPI:
         elif video:
             if await is_on_off(1):
                 direct = True
-                downloaded_file = await loop.run_in_executor(None, video_dl)
+                downloaded_file = await loop.run_in_executor(None, sp_video_dl)
             else:
+                sp_link = f"https://inv.owo.si/latest_version?id={vid_id}&itag=18"
                 proc = await asyncio.create_subprocess_exec(
                     "yt-dlp",
-                    "--cookies",cookie_txt_file(),
                     "-g",
                     "-f",
                     "best[height<=?720][width<=?1280]",
-                    f"{link}",
+                    f"{sp_link}",
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
                 )
@@ -408,8 +438,8 @@ class YouTubeAPI:
                      print(f"File size {total_size_mb:.2f} MB exceeds the 100MB limit.")
                      return None
                    direct = True
-                   downloaded_file = await loop.run_in_executor(None, video_dl)
+                   downloaded_file = await loop.run_in_executor(None, sp_video_dl)
         else:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, audio_dl)
+            downloaded_file = await loop.run_in_executor(None, sp_audio_dl)
         return downloaded_file, direct
