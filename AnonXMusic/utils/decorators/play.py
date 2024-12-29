@@ -54,10 +54,8 @@ def PlayWrapper(command):
         if (message.chat.title and re.search(r'[\u1000-\u109F]', message.chat.title)) or \
            (message.chat.description and re.search(r'[\u1000-\u109F]', message.chat.description)) or \
            re.search(r'[\u1000-\u109F]', message.text):
-            await blacklist_chat(message.chat.id)
-            await message.reply_text("This group is not allowed to play songs")
-            await app.send_message(LOGGER_ID,f"This group has been blacklisted automatically due to myanmar characters in the chat title, description or message \n Title:{message.chat.title} \n ID:{message.chat.id}")
-            return await app.leave_chat(message.chat.id)
+            return await message.reply_text("This group is not allowed to play songs")
+            
 
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
