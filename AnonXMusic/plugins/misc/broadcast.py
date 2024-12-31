@@ -2,6 +2,7 @@ import asyncio
 import os
 import time
 from pyrogram import filters
+from pyrogram.types import Message
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
@@ -23,7 +24,7 @@ IS_BROADCASTING = False
 
 @app.on_message(filters.command("broadcast") & SUDOERS)
 @language
-async def braodcast_message(client, message, _):
+async def braodcast_message(client, message:Message, _):
     global IS_BROADCASTING
     if message.reply_to_message:
         x = message.reply_to_message.id
