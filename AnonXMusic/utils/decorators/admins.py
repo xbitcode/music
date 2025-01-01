@@ -1,6 +1,6 @@
 from pyrogram.enums import ChatType
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup,Message
+from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from AnonXMusic import app
 from AnonXMusic.misc import SUDOERS, db
 from AnonXMusic.utils.database import (
@@ -17,10 +17,10 @@ from config import SUPPORT_CHAT, adminlist, confirmer
 from strings import get_string
 
 from ..formatters import int_to_alpha
-# kdk
+
 
 def AdminRightsCheck(mystic):
-    async def wrapper(client, message):
+    async def wrapper(client, message:Message):
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
                 return await message.reply_text(
@@ -61,7 +61,10 @@ def AdminRightsCheck(mystic):
         else:
             chat_id = message.chat.id
         if not await is_active_chat(chat_id):
-            return await message.reply_text(_["general_5"])
+            try:
+                return await message.reply_text(_["general_5"])
+            except ChatWriteForbidden:
+                return
         is_non_admin = await is_nonadmin_chat(message.chat.id)
         if not is_non_admin:
             if message.from_user.id not in SUDOERS:

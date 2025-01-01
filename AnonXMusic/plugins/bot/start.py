@@ -1,9 +1,13 @@
 import time
 import re
 import random
+import asyncio
+
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.errors.exceptions.not_acceptable_406 import ChannelPrivate
+from pyrogram.errors.exceptions.flood_420 import SlowmodeWait
 from youtubesearchpython.__future__ import VideosSearch
 
 import config
@@ -105,12 +109,26 @@ async def start_pm(client, message: Message, _):
 async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
-    await message.reply_photo(
+    try:
+        await message.reply_photo(
         photo=random.choice(config.START_IMG_URL),
         caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
         reply_markup=InlineKeyboardMarkup(out),
     )
-    return await add_served_chat(message.chat.id)
+        return await add_served_chat(message.chat.id)
+    except ChannelPrivate:
+        return
+    except SlowmodeWait as e:
+        asyncio.sleep(e.value)
+        try:
+            await message.reply_photo(
+        photo=random.choice(config.START_IMG_URL),
+        caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
+        reply_markup=InlineKeyboardMarkup(out),
+        )
+            return await add_served_chat(message.chat.id)
+        except:
+            return
 
 
 @app.on_message(filters.new_chat_members, group=-1)
