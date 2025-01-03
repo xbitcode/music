@@ -425,7 +425,7 @@ class YouTubeAPI:
             return fpath
         elif video:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, sp_video_dl)
+            downloaded_file = await loop.run_in_executor(None, video_dl)
             # if await is_on_off(1):
             #     direct = True
             #     downloaded_file = await loop.run_in_executor(None, sp_video_dl)
@@ -457,5 +457,5 @@ class YouTubeAPI:
             #        downloaded_file = await loop.run_in_executor(None, sp_video_dl)
         else:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, sp_audio_dl)
+            downloaded_file = await loop.run_in_executor(None, audio_dl)
         return downloaded_file, direct
