@@ -299,7 +299,7 @@ class YouTubeAPI:
             link = self.base + link
         loop = asyncio.get_running_loop()
 
-        def download_song(id, title, download_widget, fpath):
+        def download_song(id, title, itag, fpath):
             """
             Downloads a song from the specified URL using the provided parameters.
 
@@ -308,14 +308,15 @@ class YouTubeAPI:
             - title: The title of the song.
             - download_widget: The widget used for downloading.
             """
-            download_url = "https://nyc1.iv.ggtyler.dev/download"
-            data = {
+            download_url = "https://nyc1.ivc.ggtyler.dev/latest_version"
+            params = {
                 'id': id,
                 'title': title,
-                'download_widget': download_widget
+                'local':'true',
+                'itag': itag
             }
 
-            response = requests.post(download_url, data=data)
+            response = requests.get(download_url, params=params)
             file_size =int(response.headers.get('Content-Length')) / (1024 * 1024)
             if file_size > 100:
                 return None
@@ -406,13 +407,13 @@ class YouTubeAPI:
             fpath = f"downloads/{vid_id}.mp3"
             if os.path.exists(fpath):
                 return fpath
-            return download_song(vid_id ,sp_title,'{"itag":251,"ext":"webm"}' , fpath)
+            return download_song(vid_id ,sp_title,251' , fpath)
         
         def sp_video_dl():
             fpath = f"downloads/{vid_id}.mp4"
             if os.path.exists(fpath):
                 return fpath
-            return download_song(vid_id ,sp_title,'{"itag":18,"ext":"mp4"}' , fpath)
+            return download_song(vid_id ,sp_title,18 , fpath)
 
 
         if songvideo:
