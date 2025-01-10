@@ -308,7 +308,7 @@ class YouTubeAPI:
             - title: The title of the song.
             - download_widget: The widget used for downloading.
             """
-            download_url = "https://inv.owo.si/download"
+            download_url = "https://nyc1.iv.ggtyler.dev/download"
             data = {
                 'id': id,
                 'title': title,
@@ -425,7 +425,7 @@ class YouTubeAPI:
             return fpath
         elif video:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, video_dl)
+            downloaded_file = await loop.run_in_executor(None, sp_video_dl)
             # if await is_on_off(1):
             #     direct = True
             #     downloaded_file = await loop.run_in_executor(None, sp_video_dl)
@@ -457,5 +457,5 @@ class YouTubeAPI:
             #        downloaded_file = await loop.run_in_executor(None, sp_video_dl)
         else:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, audio_dl)
+            downloaded_file = await loop.run_in_executor(None, sp_audio_dl)
         return downloaded_file, direct
