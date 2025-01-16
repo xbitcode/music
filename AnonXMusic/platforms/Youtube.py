@@ -343,7 +343,7 @@ class YouTubeAPI:
             if os.path.exists(xyz):
                 return xyz
             x.download([link])
-            return xyz
+            return info['url']
 
         def video_dl():
             ydl_optssx = {
