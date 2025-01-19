@@ -328,22 +328,25 @@ class YouTubeAPI:
                 return None
 
         def audio_dl():
-            ydl_optssx = {
-                "format": "bestaudio/best",
-                "outtmpl": "downloads/%(id)s.%(ext)s",
-                "geo_bypass": True,
-                "nocheckcertificate": True,
-                "quiet": True,
-                "cookiefile" : cookie_txt_file(),
-                "no_warnings": True,
-            }
-            x = yt_dlp.YoutubeDL(ydl_optssx)
-            info = x.extract_info(link, False)
-            xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
-            if os.path.exists(xyz):
-                return xyz
-            x.download([link])
-            return info['url']
+            try:
+                res = requests.get(f"https://yt.okflix.top/api/{vid_id}")
+                response = res.json()
+                if response['status'] == 'success':
+                    print("Downloaded from okflix")
+                    return response['download_link']
+            except:
+                ydl_optssx = {
+                    "format": "bestaudio/best",
+                    "outtmpl": "downloads/%(id)s.%(ext)s",
+                    "geo_bypass": True,
+                    "nocheckcertificate": True,
+                    "quiet": True,
+                    "cookiefile" : cookie_txt_file(),
+                    "no_warnings": True,
+                }
+                x = yt_dlp.YoutubeDL(ydl_optssx)
+                info = x.extract_info(link, False)
+                return info['url']
 
         def video_dl():
             ydl_optssx = {
