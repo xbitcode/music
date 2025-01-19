@@ -328,13 +328,18 @@ class YouTubeAPI:
                 return None
 
         def audio_dl():
+            err = False
             try:
                 res = requests.get(f"https://yt.okflix.top/api/{vid_id}")
                 response = res.json()
                 if response['status'] == 'success':
                     print("Downloaded from okflix")
                     return response['download_link']
-            except:
+                err = True
+            except Exception as e:
+                print(e)
+                err = True
+            if err:
                 ydl_optssx = {
                     "format": "bestaudio/best",
                     "outtmpl": "downloads/%(id)s.%(ext)s",
@@ -461,4 +466,5 @@ class YouTubeAPI:
         else:
             direct = True
             downloaded_file = await loop.run_in_executor(None, audio_dl)
+            print(downloaded_file)
         return downloaded_file, direct
