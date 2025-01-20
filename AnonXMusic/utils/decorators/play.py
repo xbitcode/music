@@ -1,5 +1,4 @@
 import asyncio
-import re
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import (
     ChatAdminRequired,
@@ -19,10 +18,9 @@ from AnonXMusic.utils.database import (
     get_playtype,
     is_active_chat,
     is_maintenance,
-    blacklist_chat,
 )
 from AnonXMusic.utils.inline import botplaylist_markup
-from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist, PRIVATE_BOT_MODE_MEM
+from config import PLAYLIST_IMG_URL, SUPPORT_CHAT, adminlist
 from strings import get_string
 
 links = {}
@@ -43,20 +41,7 @@ def PlayWrapper(command):
                     ]
                 ]
             )
-            return await message.reply_text(_["general_3"], reply_markup=upl)
-        
-        # Check the member count in group
-        mem_count = await app.get_chat_members_count(message.chat.id)
-        if mem_count < PRIVATE_BOT_MODE_MEM:
-            return await message.reply_text(f"This group is not allowed to play songs due to less members than the required. \n\n Required members: {PRIVATE_BOT_MODE_MEM}")
-        
-        # Check for Myanmar characters in chat title, description, and message
-        ch = await app.get_chat(message.chat.id)
-        if (message.chat.title and re.search(r'[\u1000-\u109F]', message.chat.title)) or \
-           (ch.description and re.search(r'[\u1000-\u109F]', ch.description)) or \
-           re.search(r'[\u1000-\u109F]', message.text):
-            return await message.reply_text("This group is not allowed to play songs")
-            
+            return await message.reply_text(_["general_3"], reply_markup=upl)          
 
         if await is_maintenance() is False:
             if message.from_user.id not in SUDOERS:
