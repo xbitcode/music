@@ -330,7 +330,7 @@ class YouTubeAPI:
         def audio_dl():
             err = False
             try:
-                res = requests.get(f"https://yt.okflix.top/api/{vid_id}")
+                res = requests.get(f"https://yt.okflix.top/api/{vid_id}" ,timeout=5)
                 response = res.json()
                 if response['status'] == 'success':
                     print("Downloaded from okflix")
