@@ -1,6 +1,6 @@
 {
-    "name": " ──「 𝙎𝙖𝙣𝙖𝙩𝙖𝙣𝙞 ✘ 𝙈𝙪𝙨𝙞𝙘 」── ",
-    "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
+    "name": " ──「 Telegram  Bot 」── ",
+    "description": "A Telegram Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
     "logo": "https://graph.org/file/e47d7251464ca14a7f576.jpg",
     "keywords": [
     "python3",
@@ -51,6 +51,11 @@
         "description": "Your heroku app name",
         "value": "",
         "required": false
+      },
+        "COOKIES_URL": {
+        "description": "Cookies URL",
+        "value": "",
+        "required": true
       },
       "LOGGER_ID": {
         "description": "Your Log Group ID, add your bot and promote as an admin with full rights!. Channel ki id mat daal dena bsdk.",
