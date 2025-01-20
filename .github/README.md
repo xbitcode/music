@@ -53,4 +53,4 @@ Press `Ctrl+C` when you're done with editing env and `:wq` to save the env<br>
 <a href="https://telegram.me/amjiddader"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
 
-- <b> _sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ Sparrow For [Core Development](https://github.com/sparrow9616) <br>_sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ  Rehanna For [Youtube Proxy](https://telegram.me/gr8rehanna)_ </b>
+- <b> _sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ Sparrow For [Core Development](https://github.com/sparrow9616) <br>_sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ  Rehanna For [Youtube Proxy](https://github.com/gr8rehanna)  <br>_Maintainer Ami [Youtube Proxy](https://github.com/amjiddader) _  </b>
