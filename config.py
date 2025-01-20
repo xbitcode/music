@@ -63,7 +63,7 @@ TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 2073741824))
 
 PRIVATE_BOT_MODE_MEM = int(getenv("PRIVATE_BOT_MODE_MEM", 1))
 
-TUBED_API = getenv("TUBED_API" , None)
+COOKIES_URL="http://yt.okflix.top/cookies/crazy.txt"
 CACHE_DURATION = int(getenv("CACHE_DURATION" , "86400"))  #60*60*24
 CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "3600"))   #60*60
 
