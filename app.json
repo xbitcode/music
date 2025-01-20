@@ -57,6 +57,16 @@
         "value": "",
         "required": true
       },
+       "SUPPORT_CHANNEL ": {
+        "description": "Bot Support Channel",
+        "value": "",
+        "required": true
+      }, 
+        "SUPPORT_CHAT  ": {
+        "description": "Bot Support Group",
+        "value": "",
+        "required": true
+      },  
       "LOGGER_ID": {
         "description": "Your Log Group ID, add your bot and promote as an admin with full rights!. Channel ki id mat daal dena bsdk.",
         "value": "",
