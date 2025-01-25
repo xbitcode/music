@@ -3,7 +3,8 @@ from AnonXMusic.core.dir import dirr
 from AnonXMusic.core.git import git
 from AnonXMusic.core.userbot import Userbot
 from AnonXMusic.misc import dbb, heroku
-
+from config import COOKIES_URL
+from AnonXMusic.plugins.sudo.cookies import set_cookies
 from .logging import LOGGER
 
 dirr()
@@ -14,6 +15,7 @@ heroku()
 app = Anony()
 userbot = Userbot()
 
+set_cookies(COOKIES_URL)
 
 from .platforms import *
 
