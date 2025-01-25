@@ -15,7 +15,8 @@ heroku()
 app = Anony()
 userbot = Userbot()
 
-set_cookies(COOKIES_URL)
+res = set_cookies(COOKIES_URL)
+print(res)
 
 from .platforms import *
 
