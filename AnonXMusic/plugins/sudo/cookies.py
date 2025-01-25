@@ -8,15 +8,27 @@ import requests
 import json
 ## Cookies folder will be current file path cookies
 
+def set_cookies(url):
+    cookies_dir = f"{os.getcwd()}/cookies"
+    os.makedirs(cookies_dir, exist_ok=True)
+    cookies_path = os.path.join(cookies_dir, "cookies.txt")
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Check for HTTP errors
+        with open(cookies_path, "wb") as file:
+            file.write(response.content)
+        return f"Updated bot cookies and stored in {cookies_path}"
+    except requests.exceptions.RequestException as e:
+        return f"An error occurred while downloading cookies: {str(e)}"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+
+
 @app.on_message(
     filters.command(["updatecookies", "updatecookie", "getc"])
     & filters.user(OWNER_ID)
 )
 async def update_cookies(client, message: Message):
-    cookies_dir = f"{os.getcwd()}/cookies"
-    os.makedirs(cookies_dir, exist_ok=True)
-    cookies_path = os.path.join(cookies_dir, "cookies.txt")
-
     # Check if a URL is provided with the command
     if len(message.command) > 1:
         url = message.command[1]
@@ -25,13 +37,5 @@ async def update_cookies(client, message: Message):
     else:
         url = COOKIES_URL
 
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Check for HTTP errors
-        with open(cookies_path, "wb") as file:
-            file.write(response.content)
-        await message.reply_text(f"Updated bot cookies and stored in {cookies_path}")
-    except requests.exceptions.RequestException as e:
-        await message.reply_text(f"An error occurred while downloading cookies: {str(e)}")
-    except Exception as e:
-        await message.reply_text(f"An error occurred: {str(e)}")
+    res = set_cookies(url)
+    return await message.reply_text(res)
