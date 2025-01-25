@@ -8,7 +8,7 @@ import requests
 import json
 ## Cookies folder will be current file path cookies
 
-def set_cookies(url):
+async def set_cookies(url):
     cookies_dir = f"{os.getcwd()}/cookies"
     os.makedirs(cookies_dir, exist_ok=True)
     cookies_path = os.path.join(cookies_dir, "cookies.txt")
@@ -37,5 +37,5 @@ async def update_cookies(client, message: Message):
     else:
         url = COOKIES_URL
 
-    res = set_cookies(url)
+    res = await set_cookies(url)
     return await message.reply_text(res)

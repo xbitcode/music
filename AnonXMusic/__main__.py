@@ -10,8 +10,8 @@ from AnonXMusic.core.call import Anony
 from AnonXMusic.misc import sudo
 from AnonXMusic.plugins import ALL_MODULES
 from AnonXMusic.utils.database import get_banned_users, get_gbanned
-from config import BANNED_USERS
-
+from config import BANNED_USERS, COOKIES_URL
+from AnonXMusic.plugins.sudo.cookies import set_cookies
 
 async def init():
     if (
@@ -48,6 +48,9 @@ async def init():
         exit()
     except:
         pass
+
+    res = await set_cookies(COOKIES_URL)
+    LOGGER("AnonXMusic").info(f"{res}")
     await Anony.decorators()
     await idle()
     await app.stop()
