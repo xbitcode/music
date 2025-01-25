@@ -8,11 +8,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from AnonXMusic import app
 from AnonXMusic.misc import SUDOERS
-from AnonXMusic.utils.database import autoend_off, autoend_on
-import random
-import markdown
-import logging
-import asyncio
+
 
 
 @app.on_message(filters.command("ginfo") & SUDOERS)
