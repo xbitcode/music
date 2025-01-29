@@ -18,10 +18,6 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 # Vars For API End Pont.
 YTPROXY_URL = getenv("YTPROXY_URL", 'https://yt.okflix.top/api/') ## E.G https://yt.okflix.top/api/jADTdg-o8i0 Returns Download Info.
-YTPROXY_SEARCH = getenv("YTPROXY_SEARCH", 'https://yt.okflix.top/info/search/') ## EXAMPLE: https://yt.okflix.top/info/search/jADTdg-o8i0 : Return song info.
-DEVINFO_URL = getenv("DEVINFO_URL", 'https://yt.okflix.top/dev/') ## Only for internal deubg purpose.
-DEVFIX_URL = getenv("DEVFIX_URL", 'https://yt.okflix.top/fix/') 
-
 
 ## Other vaes
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 300))
