@@ -32,6 +32,11 @@
         "value": "",
         "required": true
       },
+      "YTPROXY_URL": {
+        "description": "YT Proxy Server Endpoint",
+        "value": "",
+        "required": true
+      },          
       "OWNER_ID": {
         "description": "The user id of user whom you would like to add as OWNER.",
         "value": "",
