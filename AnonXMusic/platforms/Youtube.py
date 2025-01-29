@@ -18,6 +18,7 @@ import os
 import glob
 import random
 import logging
+from config import YTPROXY_URL as YTPROXY
 
 def cookie_txt_file():
     folder_path = f"{os.getcwd()}/cookies"
@@ -301,7 +302,8 @@ class YouTubeAPI:
         def audio_dl():
             err = False
             try:
-                res = requests.get(f"https://yt.okflix.top/api/{vid_id}")
+                res = requests.get(f"{YTPROXY}/{YTPROXY}")
+                #res = requests.get(f"https://xxxxxxx/{vid_id}")
                 response = res.json()
                 if response['status'] == 'success':
                     fpath = f"downloads/{vid_id}.mp3"
