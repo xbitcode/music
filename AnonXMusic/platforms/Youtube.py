@@ -11,7 +11,7 @@ from youtubesearchpython.__future__ import VideosSearch
 
 from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
-
+from AnonXMusic import LOGGER
 
 
 import os
@@ -302,8 +302,7 @@ class YouTubeAPI:
         def audio_dl():
             err = False
             try:
-                res = requests.get(f"{YTPROXY}/{YTPROXY}")
-                #res = requests.get(f"https://xxxxxxx/{vid_id}")
+                res = requests.get(f"{YTPROXY}/{vid_id}")
                 response = res.json()
                 if response['status'] == 'success':
                     fpath = f"downloads/{vid_id}.mp3"
@@ -317,7 +316,7 @@ class YouTubeAPI:
                         return fpath
                 err = True
             except Exception as e:
-                print(e)
+                LOGGER(__name__).info(e)
                 err = True
             if err:
                 ydl_optssx = {

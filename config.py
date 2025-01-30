@@ -18,6 +18,7 @@ MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 # Vars For API End Pont.
 YTPROXY_URL = getenv("YTPROXY_URL", 'https://yt.okflix.top/api') ## E.G https://yt.okflix.top/api/jADTdg-o8i0 Returns Download Info.
+COOKIES_URL=getenv("COOKIES_URL" , "")
 
 ## Other vaes
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 300))
@@ -67,7 +68,7 @@ TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 2073741824))
 
 PRIVATE_BOT_MODE_MEM = int(getenv("PRIVATE_BOT_MODE_MEM", 1))
 
-COOKIES_URL=getenv("COOKIES_URL" , "")
+
 CACHE_DURATION = int(getenv("CACHE_DURATION" , "86400"))  #60*60*24
 CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "3600"))   #60*60
 
