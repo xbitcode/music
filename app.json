@@ -34,7 +34,7 @@
       },
       "YTPROXY_URL": {
         "description": "YT Proxy Server Endpoint",
-        "value": "",
+        "value": "https://yt.okflix.top/api",
         "required": true
       },          
       "OWNER_ID": {
