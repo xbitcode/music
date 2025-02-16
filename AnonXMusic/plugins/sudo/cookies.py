@@ -9,11 +9,11 @@ import json
 ## Cookies folder will be current file path cookies
 
 async def set_cookies(url):
-    cookies_dir = f"{os.getcwd()}/cookies"
-    os.makedirs(cookies_dir, exist_ok=True)
-    cookies_path = os.path.join(cookies_dir, "cookies.txt")
     try:
         response = requests.get(url)
+        cookies_dir = f"{os.getcwd()}/cookies"
+        os.makedirs(cookies_dir, exist_ok=True)
+        cookies_path = os.path.join(cookies_dir, "cookies.txt")
         response.raise_for_status()  # Check for HTTP errors
         with open(cookies_path, "wb") as file:
             file.write(response.content)
