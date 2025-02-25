@@ -412,18 +412,26 @@ class YouTubeAPI:
             x.download([link])
 
         def song_audio_dl():
-            res = requests.get(f"{YTPROXY}/{vid_id}")
-            response = res.json()
-            if response['status'] == 'success':
-                fpath = f"downloads/{vid_id}.{response['ext']}"
-                if os.path.exists(fpath):
-                    return fpath
-                download_link =response['download_link']
-                data = requests.get(download_link)
-                if data.status_code == 200:
-                    with open(fpath, "wb") as f:
-                        f.write(data.content)
-                    return fpath
+            fpath = f"downloads/{title}.%(ext)s"
+            ydl_optssx = {
+                "format": format_id,
+                "outtmpl": fpath,
+                "geo_bypass": True,
+                "nocheckcertificate": True,
+                "quiet": True,
+                "no_warnings": True,
+                "cookiefile" : cookie_txt_file(),
+                "prefer_ffmpeg": True,
+                "postprocessors": [
+                    {
+                        "key": "FFmpegExtractAudio",
+                        "preferredcodec": "mp3",
+                        "preferredquality": "192",
+                    }
+                ],
+            }
+            x = yt_dlp.YoutubeDL(ydl_optssx)
+            x.download([link])
 
         if songvideo:
             await loop.run_in_executor(None, song_video_dl)
