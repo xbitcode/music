@@ -363,18 +363,24 @@ class YouTubeAPI:
         loop = asyncio.get_running_loop()
 
         def audio_dl():
-            res = requests.get(f"{YTPROXY}/{vid_id}")
-            response = res.json()
-            if response['status'] == 'success':
-                fpath = f"downloads/{vid_id}.{response['ext']}"
-                if os.path.exists(fpath):
-                    return fpath
-                download_link =response['download_link']
-                data = requests.get(download_link)
-                if data.status_code == 200:
-                    with open(fpath, "wb") as f:
-                        f.write(data.content)
-                    return fpath
+            try:
+                res = requests.get(f"{YTPROXY}/{vid_id}")
+                response = res.json()
+                if response['status'] == 'success':
+                    fpath = f"downloads/{vid_id}.{response['ext']}"
+                    if os.path.exists(fpath):
+                        return fpath
+                    download_link = response['download_link']
+                    with requests.get(download_link, stream=True) as data:
+                        data.raise_for_status() 
+                        with open(fpath, "wb") as f:
+                            for chunk in data.iter_content(chunk_size=8192):
+                                if chunk:
+                                    f.write(chunk)
+                        return fpath
+            except Exception as e:
+                LOGGER(__name__).error(f"Error in downloading song :{e}")
+                return None
 
         def video_dl():
             ydl_optssx = {
