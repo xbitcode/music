@@ -7,7 +7,7 @@ import requests
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
-from youtubesearchpython.__future__ import VideosSearch
+from youtubesearchpython.__future__ import VideosSearch, CustomSearch
 
 from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
@@ -117,6 +117,10 @@ class YouTubeAPI:
 
                 except (ValueError, IndexError):
                     continue
+            
+            search = CustomSearch(query=link, searchPreferences="EgIYAw==" ,limit=1)
+            for res in (await search.next()).get("result", []):
+                return res
 
             return None
 
@@ -161,6 +165,11 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
+
 
         result = await self._get_video_details(link)
         if not result:
@@ -183,6 +192,10 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
             
         result = await self._get_video_details(link)
         if not result:
@@ -194,6 +207,10 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
 
         result = await self._get_video_details(link)
         if not result:
@@ -205,6 +222,10 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
 
         result = await self._get_video_details(link)
         if not result:
@@ -216,6 +237,11 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
+
         proc = await asyncio.create_subprocess_exec(
             "yt-dlp",
             "--cookies",cookie_txt_file(),
@@ -237,6 +263,10 @@ class YouTubeAPI:
             link = self.listbase + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
         playlist = await shell_cmd(
             f"yt-dlp -i --get-id --flat-playlist --cookies {cookie_txt_file()} --playlist-end {limit} --skip-download {link}"
         )
@@ -254,6 +284,10 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
 
         result = await self._get_video_details(link)
         if not result:
@@ -273,6 +307,10 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
         ytdl_opts = {"quiet": True, "cookiefile" : cookie_txt_file()}
         ydl = yt_dlp.YoutubeDL(ytdl_opts)
         with ydl:
@@ -309,6 +347,10 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
+        if "?si=" in link:
+            link = link.split("?si=")[0]
+        elif "&si=" in link:
+            link = link.split("&si=")[0]
 
         try:
             results = []
@@ -362,24 +404,50 @@ class YouTubeAPI:
             link = self.base + link
         loop = asyncio.get_running_loop()
 
-        def audio_dl():
+        def audio_dl(vid_id):
+            """
+            Download audio for the given video ID using the proxy service.
+
+            Args:
+                vid_id (str): YouTube video ID
+
+            Returns:
+                str or None: File path if download successful, None otherwise
+            """
             try:
-                res = requests.get(f"{YTPROXY}/{vid_id}")
-                response = res.json()
-                if response['status'] == 'success':
-                    fpath = f"downloads/{vid_id}.{response['ext']}"
+                # Check if file already exists
+                for ext in ['mp3', 'm4a', 'webm']:
+                    fpath = f"downloads/{vid_id}.{ext}"
                     if os.path.exists(fpath):
                         return fpath
+
+                # Get download information from proxy
+                res = requests.get(f"{YTPROXY}/{vid_id}", timeout=30)
+                response = res.json()
+
+                if response['status'] == 'success':
+                    fpath = f"downloads/{vid_id}.{response['ext']}"
                     download_link = response['download_link']
                     with requests.get(download_link, stream=True) as data:
-                        data.raise_for_status() 
+                        data.raise_for_status()
+
                         with open(fpath, "wb") as f:
                             for chunk in data.iter_content(chunk_size=8192):
                                 if chunk:
                                     f.write(chunk)
                         return fpath
+                else:
+                    LOGGER(__name__).error(f"Proxy returned error status: {response.get('error', 'Unknown')}")
+                    return None
+
+            except requests.exceptions.RequestException as e:
+                LOGGER(__name__).error(f"Network error while downloading: {str(e)}")
+                return None
+            except json.JSONDecodeError as e:
+                LOGGER(__name__).error(f"Invalid response from proxy: {str(e)}")
+                return None
             except Exception as e:
-                LOGGER(__name__).error(f"Error in downloading song :{e}")
+                LOGGER(__name__).error(f"Error in downloading song: {str(e)}")
                 return None
 
         def video_dl():
@@ -479,5 +547,5 @@ class YouTubeAPI:
                    downloaded_file = await loop.run_in_executor(None, video_dl)
         else:
             direct = True
-            downloaded_file = await loop.run_in_executor(None, audio_dl)
+            downloaded_file = await loop.run_in_executor(None, lambda:audio_dl(vid_id))
         return downloaded_file, direct
