@@ -422,7 +422,7 @@ class YouTubeAPI:
                         return fpath
 
                 # Get download information from proxy
-                res = requests.get(f"{YTPROXY}/{vid_id}", timeout=30)
+                res = requests.get(f"{YTPROXY}/{vid_id}", timeout=300)
                 response = res.json()
 
                 if response['status'] == 'success':
