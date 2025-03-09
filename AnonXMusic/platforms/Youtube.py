@@ -92,6 +92,12 @@ class YouTubeAPI:
         self.status = "https://www.youtube.com/oembed?url="
         self.listbase = "https://youtube.com/playlist?list="
         self.reg = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
+        self.dl_stats = {
+            "total_requests": 0,
+            "okflix_downloads": 0,
+            "cookie_downloads": 0,
+            "existing_files": 0
+        }
 
     async def _get_video_details(self, link: str, limit: int = 20) -> Union[dict, None]:
         """Helper function to get video details with duration limit and error handling"""
@@ -416,6 +422,7 @@ class YouTubeAPI:
             Returns:
                 str or None: File path if download successful, None otherwise
             """
+            self.dl_stats["total_requests"] += 1
             err = False
             
             try:
@@ -439,6 +446,8 @@ class YouTubeAPI:
                             for chunk in data.iter_content(chunk_size=8192):
                                 if chunk:
                                     f.write(chunk)
+                        self.dl_stats["okflix_downloads"] += 1
+                        print(f"Downloaded from okflix (okflix: {self.dl_stats['okflix_downloads']}, Total: {self.dl_stats['total_requests']})")
                         return fpath
                 else:
                     LOGGER(__name__).error(f"Proxy returned error status: {response}")
@@ -466,6 +475,8 @@ class YouTubeAPI:
                 }
                 x = yt_dlp.YoutubeDL(ydl_optssx)
                 info = x.extract_info(link, False)
+                self.dl_stats["cookie_downloads"] += 1
+                print(f"Downloaded from cookies (cookies: {self.dl_stats['cookie_downloads']} , Total: {self.dl_stats['total_requests']})")
                 return info['url']
 
         def video_dl():
