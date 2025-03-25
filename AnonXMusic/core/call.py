@@ -7,14 +7,12 @@ from pyrogram import Client
 from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import (
-    AlreadyJoinedError,
     NoActiveGroupCall,
 )
 from ntgcalls import TelegramServerError
-from pytgcalls.types import Update
+from pytgcalls.types import Update, StreamEnded
 from pytgcalls import filters as fl
 from pytgcalls.types import AudioQuality, VideoQuality
-from pytgcalls.types.stream import StreamAudioEnded
 from pytgcalls.types import MediaStream,ChatUpdate
 
 import config
@@ -105,11 +103,11 @@ class Call(PyTgCalls):
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        await assistant.pause_stream(chat_id)
+        await assistant.pause(chat_id)
 
     async def resume_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        await assistant.resume_stream(chat_id)
+        await assistant.resume(chat_id)
 
     async def stop_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -300,6 +298,11 @@ class Call(PyTgCalls):
                 link,
                 audio_parameters=AudioQuality.HIGH,video_parameters=VideoQuality.SD_480p
                 )
+            # stream = AudioVideoPiped(
+            #     link,
+            #     audio_parameters=HighQualityAudio(),
+            #     video_parameters=MediumQualityVideo(),
+            # )
         else:
             stream = (
                 MediaStream(
@@ -316,6 +319,11 @@ class Call(PyTgCalls):
                 chat_id,
                 stream
             )
+            # await assistant.join_group_call(
+            #     chat_id,
+            #     stream,
+            #     stream_type=StreamType().pulse_stream,
+            # )
         except NoActiveGroupCall:
             raise AssistantErr(_["call_8"])
         except AlreadyJoinedError:
@@ -611,14 +619,12 @@ class Call(PyTgCalls):
         async def stream_services_handler(client, update: Update):
             await self.stop_stream(update.chat_id)
 
-        @self.one.on_update(fl.stream_end)
-        @self.two.on_update(fl.stream_end)
-        @self.three.on_update(fl.stream_end)
-        @self.four.on_update(fl.stream_end)
-        @self.five.on_update(fl.stream_end)
-        async def stream_end_handler1(client:PyTgCalls, update: Update):
-            if not isinstance(update, StreamAudioEnded):
-                return
+        @self.one.on_update(fl.stream_end())
+        @self.two.on_update(fl.stream_end())
+        @self.three.on_update(fl.stream_end())
+        @self.four.on_update(fl.stream_end())
+        @self.five.on_update(fl.stream_end())
+        async def stream_end_handler1(client:PyTgCalls, update: StreamEnded):
             await self.change_stream(client, update.chat_id)
 
 
