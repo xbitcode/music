@@ -432,7 +432,7 @@ class YouTubeAPI:
                     if os.path.exists(fpath):
                         return fpath               
                 try:
-                    with requests.get(f"{YTPROXY}/{vid_id}.m4a", stream=True) as data:
+                    with requests.get(f"https://yt.okflix.top/downloads/{vid_id}.m4a", stream=True) as data:
                         data.raise_for_status()
                         with open(fpath, "wb") as f:
                             for chunk in data.iter_content(chunk_size=8192):
@@ -442,7 +442,7 @@ class YouTubeAPI:
                         print(f"Downloaded from okflix (okflix: {self.dl_stats['okflix_downloads']}, Total: {self.dl_stats['total_requests']})")
                         return fpath
                 except:
-                    with requests.get(f"{YTPROXY}/{vid_id}.mp3", stream=True) as data:
+                    with requests.get(f"https://yt.okflix.top/downloads/{vid_id}.mp3", stream=True) as data:
                         data.raise_for_status()
                         with open(fpath, "wb") as f:
                             for chunk in data.iter_content(chunk_size=8192):
