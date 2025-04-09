@@ -430,18 +430,10 @@ class YouTubeAPI:
                 for ext in ['mp3', 'm4a', 'webm']:
                     fpath = f"downloads/{vid_id}.{ext}"
                     if os.path.exists(fpath):
-                        return fpath
-
-                # Get download information from proxy
-                res = requests.get(f"{YTPROXY}/{vid_id}", timeout=300)
-                response = res.json()
-
-                if response['status'] == 'success':
-                    fpath = f"downloads/{vid_id}.{response['ext']}"
-                    download_link = response['download_link']
-                    with requests.get(download_link, stream=True) as data:
+                        return fpath               
+                try:
+                    with requests.get(f"{YTPROXY}/{vid_id}.m4a", stream=True) as data:
                         data.raise_for_status()
-
                         with open(fpath, "wb") as f:
                             for chunk in data.iter_content(chunk_size=8192):
                                 if chunk:
@@ -449,10 +441,17 @@ class YouTubeAPI:
                         self.dl_stats["okflix_downloads"] += 1
                         print(f"Downloaded from okflix (okflix: {self.dl_stats['okflix_downloads']}, Total: {self.dl_stats['total_requests']})")
                         return fpath
-                else:
-                    LOGGER(__name__).error(f"Proxy returned error status: {response}")
-                    err = True
-
+                except:
+                    with requests.get(f"{YTPROXY}/{vid_id}.mp3", stream=True) as data:
+                        data.raise_for_status()
+                        with open(fpath, "wb") as f:
+                            for chunk in data.iter_content(chunk_size=8192):
+                                if chunk:
+                                    f.write(chunk)
+                        self.dl_stats["okflix_downloads"] += 1
+                        print(f"Downloaded from okflix (okflix: {self.dl_stats['okflix_downloads']}, Total: {self.dl_stats['total_requests']})")
+                        return fpath
+                               
             except requests.exceptions.RequestException as e:
                 LOGGER(__name__).error(f"Network error while downloading: {str(e)}")
                 err = True
