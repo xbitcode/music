@@ -1,24 +1,25 @@
 import asyncio
-import os
-import re
+import glob
 import json
+import os
+import random
+import re
+from concurrent.futures import ThreadPoolExecutor
 from typing import Union
+
 import requests
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from youtubesearchpython.__future__ import VideosSearch, CustomSearch
 
+from AnonXMusic import LOGGER
 from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
-from AnonXMusic import LOGGER
+from config import YT_API_KEY, YTPROXY_URL as YTPROXY
 
-
-import os
-import glob
-import random
-import logging
-from config import YTPROXY_URL as YTPROXY
 
 def cookie_txt_file():
     try:
@@ -412,90 +413,79 @@ class YouTubeAPI:
             link = self.base + link
         loop = asyncio.get_running_loop()
 
-        def audio_dl(vid_id):
-            """
-            Download audio for the given video ID using the proxy service.
+        def create_session():
+            session = requests.Session()
+            retries = Retry(total=3, backoff_factor=0.1)
+            session.mount('http://', HTTPAdapter(max_retries=retries))
+            session.mount('https://', HTTPAdapter(max_retries=retries))
+            return session
 
-            Args:
-                vid_id (str): YouTube video ID
-
-            Returns:
-                str or None: File path if download successful, None otherwise
-            """
-            self.dl_stats["total_requests"] += 1
-            err = False
-            
-            try:
-                # Check if file already exists
-                for ext in ['mp3', 'm4a', 'webm']:
-                    fpath = f"downloads/{vid_id}.{ext}"
-                    if os.path.exists(fpath):
-                        return fpath               
-                try:
-                    with requests.get(f"https://yt.okflix.top/downloads/{vid_id}.m4a", stream=True) as data:
-                        data.raise_for_status()
-                        with open(fpath, "wb") as f:
-                            for chunk in data.iter_content(chunk_size=8192):
-                                if chunk:
-                                    f.write(chunk)
-                        self.dl_stats["okflix_downloads"] += 1
-                        print(f"Downloaded from okflix (okflix: {self.dl_stats['okflix_downloads']}, Total: {self.dl_stats['total_requests']})")
-                        return fpath
-                except:
-                    with requests.get(f"https://yt.okflix.top/downloads/{vid_id}.mp3", stream=True) as data:
-                        data.raise_for_status()
-                        with open(fpath, "wb") as f:
-                            for chunk in data.iter_content(chunk_size=8192):
-                                if chunk:
-                                    f.write(chunk)
-                        self.dl_stats["okflix_downloads"] += 1
-                        print(f"Downloaded from okflix (okflix: {self.dl_stats['okflix_downloads']}, Total: {self.dl_stats['total_requests']})")
-                        return fpath
-                               
-            except requests.exceptions.RequestException as e:
-                LOGGER(__name__).error(f"Network error while downloading: {str(e)}")
-                err = True
-            except json.JSONDecodeError as e:
-                LOGGER(__name__).error(f"Invalid response from proxy: {str(e)}")
-                err = True
-            except Exception as e:
-                LOGGER(__name__).error(f"Error in downloading song: {str(e)}")
-                err = True
-            
-            if err:
-                ydl_optssx = {
-                    "format": "bestaudio/best",
-                    "outtmpl": "downloads/%(id)s.%(ext)s",
-                    "geo_bypass": True,
-                    "nocheckcertificate": True,
-                    "quiet": True,
-                    "cookiefile" : cookie_txt_file(),
-                    "no_warnings": True,
-                }
-                x = yt_dlp.YoutubeDL(ydl_optssx)
-                info = x.extract_info(link, False)
-                self.dl_stats["cookie_downloads"] += 1
-                print(f"Downloaded from cookies (cookies: {self.dl_stats['cookie_downloads']} , Total: {self.dl_stats['total_requests']})")
-                return info['url']
-
-        def video_dl():
-            ydl_optssx = {
-                "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
-                "outtmpl": "downloads/%(id)s.%(ext)s",
-                "geo_bypass": True,
-                "nocheckcertificate": True,
+        def get_ydl_opts(output_path):
+            return {
+                "outtmpl": output_path,
                 "quiet": True,
-                "cookiefile" : cookie_txt_file(),
-                "no_warnings": True,
+                "concurrent-fragments": 16,  # Increased from 10
+                "fragment-retries": 10,
+                "retries": 3,
+                "file_access_retries": 3,
+                "http-chunk-size": 10485760,  # 10MB chunks
+                "buffersize": 32768,
             }
-            x = yt_dlp.YoutubeDL(ydl_optssx)
-            info = x.extract_info(link, False)
-            xyz = os.path.join("downloads", f"{info['id']}.{info['ext']}")
-            if os.path.exists(xyz):
-                return xyz
-            x.download([link])
-            return xyz
 
+        def audio_dl(vid_id):
+            try:
+                session = create_session()
+                res = session.get(f"{YTPROXY}/api/{vid_id}/key={YT_API_KEY}", timeout=300)
+                response = res.json()
+
+                if response['status'] == 'success':
+                    xyz = os.path.join("downloads", f"{vid_id}.{response['ext']}")
+                    if os.path.exists(xyz):
+                        return xyz
+
+                    ydl_opts = get_ydl_opts(f"downloads/{vid_id}.{response['ext']}")
+                    with ThreadPoolExecutor(max_workers=4) as executor:
+                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download([response['download_url']]))
+                        future.result()  # Wait for download to complete
+                    return xyz
+                else:
+                    print(f"Proxy returned error status: {response}")
+
+            except requests.exceptions.RequestException as e:
+                print(f"Network error while downloading: {str(e)}")
+            except json.JSONDecodeError as e:
+                print(f"Invalid response from proxy: {str(e)}")
+            except Exception as e:
+                print(f"Error in downloading song: {str(e)}")
+            return None
+
+        def video_dl(vid_id):
+            try:
+                session = create_session()
+                res = session.get(f"{YTPROXY}/api/{vid_id}/key={YT_API_KEY}", timeout=300)
+                response = res.json()
+
+                if response['status'] == 'success':
+                    xyz = os.path.join("downloads", f"{vid_id}.mp4")
+                    if os.path.exists(xyz):
+                        return xyz
+
+                    ydl_opts = get_ydl_opts(f"downloads/{vid_id}.mp4")
+                    with ThreadPoolExecutor(max_workers=4) as executor:
+                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download([response['video_url']]))
+                        future.result()  # Wait for download to complete
+                    return xyz
+                else:
+                    print(f"Proxy returned error status: {response}")
+
+            except requests.exceptions.RequestException as e:
+                print(f"Network error while downloading: {str(e)}")
+            except json.JSONDecodeError as e:
+                print(f"Invalid response from proxy: {str(e)}")
+            except Exception as e:
+                print(f"Error in downloading song: {str(e)}")
+            return None
+        
         def song_video_dl():
             formats = f"{format_id}+140"
             fpath = f"downloads/{title}"
@@ -544,36 +534,10 @@ class YouTubeAPI:
             fpath = f"downloads/{title}.mp3"
             return fpath
         elif video:
-            if await is_on_off(1):
-                direct = True
-                downloaded_file = await loop.run_in_executor(None, video_dl)
-            else:
-                proc = await asyncio.create_subprocess_exec(
-                    "yt-dlp",
-                    "--cookies",cookie_txt_file(),
-                    "-g",
-                    "-f",
-                    "best[height<=?720][width<=?1280]",
-                    f"{link}",
-                    stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.PIPE,
-                )
-                stdout, stderr = await proc.communicate()
-                if stdout:
-                    downloaded_file = stdout.decode().split("\n")[0]
-                    direct = False
-                else:
-                   file_size = await check_file_size(link)
-                   if not file_size:
-                     print("None file Size")
-                     return
-                   total_size_mb = file_size / (1024 * 1024)
-                   if total_size_mb > 250:
-                     print(f"File size {total_size_mb:.2f} MB exceeds the 100MB limit.")
-                     return None
-                   direct = True
-                   downloaded_file = await loop.run_in_executor(None, video_dl)
+            direct = True
+            downloaded_file = await loop.run_in_executor(None, lambda:video_dl(vid_id))
         else:
             direct = True
             downloaded_file = await loop.run_in_executor(None, lambda:audio_dl(vid_id))
+        
         return downloaded_file, direct
