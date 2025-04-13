@@ -90,10 +90,16 @@ Share feedback and get 1 Month FREE access!
 
 
 ---
+## 💰 Pricing & Plans
 
-💰 Pricing & Plans
+> All plans include **Unlimited Usage** — only rate limits vary.
 
-All plans include Unlimited Usage – only rate limits vary.
+| Plan         | Price (INR) | Rate Limit       | Access Type             |
+|--------------|-------------|------------------|--------------------------|
+| **Lite**     | ₹49/month   | 49 requests/hour | API Key                  |
+| **Basic**    | ₹149/month  | 149 requests/hour| API Key                  |
+| **Pro**      | ₹299/month  | 299 requests/hour| API Key                  |
+| **Unlimited**| ₹499/month  | 5000 requests/hour| IP-Based (Single IP)    |
 
 > Need higher limits or custom solutions? Contact us!
 
