@@ -1,3 +1,88 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/assets/xbitcode-banner.png" alt="XBITCODE" width="400"/>
+</p>
+
+<h1 align="center">🎧 Telegram Music Proxy API</h1>
+
+<p align="center">
+  Built by <strong>XBITCODE</strong> — Stream YouTube Audio & Video in your Telegram bots effortlessly.
+  <br>Fast. Reliable. Cookie-Free.
+</p>
+
+---
+
+## ✨ Why Use This API?
+
+- 🔊 Stream **Audio + Video** directly from YouTube  
+- ⚡ **High-Speed** Proxy Engine (Updated Version)  
+- ❌ **No Cookies, No Errors** — Just smooth playback  
+- 🔐 API Key or IP-Based Authentication  
+- ⚙️ Ready-to-integrate with your Music or Group Call Bots  
+
+---
+
+## ⚙️ API Usage
+
+**Base Endpoint**
+
+🔑 API Access Key
+yt7198252244
+
+> Free for limited users.
+Share feedback and get 1 Month FREE access!
+
+
+
+
+---
+## 💰 Pricing & Plans
+
+> All plans include **Unlimited Usage** — only rate limits vary.
+
+| Plan         | Price (INR) | Rate Limit       | Access Type             |
+|--------------|-------------|------------------|--------------------------|
+| **Lite**     | ₹49/month   | 49 requests/hour | API Key                  |
+| **Basic**    | ₹149/month  | 149 requests/hour| API Key                  |
+| **Pro**      | ₹299/month  | 299 requests/hour| API Key                  |
+| **Unlimited**| ₹399/month  | 5000 requests/hour| IP-Based (Single IP)    |
+
+> Need higher limits or custom solutions? Contact us!
+
+
+
+
+---
+
+🧩 Integration
+
+Get started with our open-source bot example:
+Repo: StrangerMusicBot
+
+
+---
+
+📞 Support
+
+Join our community or contact our team via Telegram for:
+
+API Onboarding
+
+Plan Activation
+
+Troubleshooting
+
+
+
+---
+
+⚠️ Disclaimer
+
+This service is intended for personal and educational use.
+Users must follow YouTube’s Terms of Service and Telegram’s Bot Policy.
+
+
+---
+
 <h2 align="center">
     ──「 Telegram Music Bot 」──
 </h2>
@@ -52,91 +137,6 @@ Press `Ctrl+C` when you're done with editing env and `:wq` to save the env<br>
 <p align="center">
 <a href="https://telegram.me/amjiddader"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/assets/xbitcode-banner.png" alt="XBITCODE" width="400"/>
-</p>
-
-<h1 align="center">🎧 Telegram Music Proxy API</h1>
-
-<p align="center">
-  Built by <strong>XBITCODE</strong> — Stream YouTube Audio & Video in your Telegram bots effortlessly.
-  <br>Fast. Reliable. Cookie-Free.
-</p>
-
----
-
-## ✨ Why Use This API?
-
-- 🔊 Stream **Audio + Video** directly from YouTube  
-- ⚡ **High-Speed** Proxy Engine (Updated Version)  
-- ❌ **No Cookies, No Errors** — Just smooth playback  
-- 🔐 API Key or IP-Based Authentication  
-- ⚙️ Ready-to-integrate with your Music or Group Call Bots  
-
----
-
-## ⚙️ API Usage
-
-**Base Endpoint**
-
-🔑 API Access Key
-yt7198252244
-
-> Free for limited users.
-Share feedback and get 1 Month FREE access!
-
-
-
-
----
-## 💰 Pricing & Plans
-
-> All plans include **Unlimited Usage** — only rate limits vary.
-
-| Plan         | Price (INR) | Rate Limit       | Access Type             |
-|--------------|-------------|------------------|--------------------------|
-| **Lite**     | ₹49/month   | 49 requests/hour | API Key                  |
-| **Basic**    | ₹149/month  | 149 requests/hour| API Key                  |
-| **Pro**      | ₹299/month  | 299 requests/hour| API Key                  |
-| **Unlimited**| ₹499/month  | 5000 requests/hour| IP-Based (Single IP)    |
-
-> Need higher limits or custom solutions? Contact us!
-
-
-
-
----
-
-🧩 Integration
-
-Get started with our open-source bot example:
-Repo: StrangerMusicBot
-
-
----
-
-📞 Support
-
-Join our community or contact our team via Telegram for:
-
-API Onboarding
-
-Plan Activation
-
-Troubleshooting
-
-
-
----
-
-⚠️ Disclaimer
-
-This service is intended for personal and educational use.
-Users must follow YouTube’s Terms of Service and Telegram’s Bot Policy.
-
-
----
 
 <p align="center">
   Made with ❤️ by <strong>XBITCODE</strong>
