@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/assets/xbitcode-banner.png" alt="XBITCODE" width="400"/>
+  <img src="https://imgur.com/a/gLz1fnG" alt="XBITCODE" width="400"/>
 </p>
 
 <h1 align="center">🎧 Telegram Music Proxy API</h1>
