@@ -34,7 +34,7 @@
       },
       "YTPROXY_URL": {
         "description": "YT Proxy Server Endpoint",
-        "value": "https://yt.okflix.top/api",
+        "value": "https://tubed.okflix.top",
         "required": true
       },          
       "OWNER_ID": {
@@ -57,8 +57,8 @@
         "value": "",
         "required": false
       },
-      "COOKIES_URL": {
-        "description": "Cookies URL",
+      "YT_API_KEY": {
+        "description": "enter YT_API_KEY here which you have buy from us.",
         "value": "",
         "required": true
       },
