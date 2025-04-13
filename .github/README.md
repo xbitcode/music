@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://imgur.com/a/gLz1fnG" alt="XBITCODE" width="400"/>
+  <img src="https://i.imgur.com/FD3JXdd.jpeg" alt="XBITCODE Banner" />
 </p>
 
 <h1 align="center">🎧 Telegram Music Proxy API</h1>
