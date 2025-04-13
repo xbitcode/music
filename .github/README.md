@@ -2,9 +2,6 @@
   <img src="https://imgur.com/a/pYspLEk.jpeg" alt="XBITCODE Banner" />
 </p>
 
-<p align="center">
-  <img src="https://chat.openai.com/share/file/LsdJWrvTT4qJ9qdRxThsf7" alt="XBITCODE Banner" />
-</p>
 
 <h1 align="center">🎧 Telegram Music Proxy API</h1>
 
