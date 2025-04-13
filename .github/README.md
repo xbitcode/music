@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/FD3JXdd.jpeg" alt="XBITCODE Banner" />
+  <img src="https://imgur.com/a/pYspLEk.jpeg" alt="XBITCODE Banner" />
 </p>
 
 <p align="center">
