@@ -1,7 +1,15 @@
-<p align="center">
-  <img src="https://imgur.com/a/pYspLEk.jpeg" alt="XBITCODE Banner" />
+<h2 align="center">
+    ──「 𝙎𝙖𝙣𝙖𝙩𝙖𝙣𝙞 ✘ 𝙈𝙪𝙨𝙞𝙘 」──
+</h2>
+
+ align="center">
+  <img src="https://imgur.com/a/dQSy9Kt">
+    
 </p>
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+</p>
 
 <h1 align="center">🎧 Telegram Music Proxy API</h1>
 
