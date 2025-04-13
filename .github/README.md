@@ -53,4 +53,88 @@ Press `Ctrl+C` when you're done with editing env and `:wq` to save the env<br>
 <a href="https://telegram.me/amjiddader"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yourusername/yourrepo/main/assets/xbitcode-banner.png" alt="XBITCODE" width="400"/>
+</p>
+
+<h1 align="center">🎧 Telegram Music Proxy API</h1>
+
+<p align="center">
+  Built by <strong>XBITCODE</strong> — Stream YouTube Audio & Video in your Telegram bots effortlessly.
+  <br>Fast. Reliable. Cookie-Free.
+</p>
+
+---
+
+## ✨ Why Use This API?
+
+- 🔊 Stream **Audio + Video** directly from YouTube  
+- ⚡ **High-Speed** Proxy Engine (Updated Version)  
+- ❌ **No Cookies, No Errors** — Just smooth playback  
+- 🔐 API Key or IP-Based Authentication  
+- ⚙️ Ready-to-integrate with your Music or Group Call Bots  
+
+---
+
+## ⚙️ API Usage
+
+**Base Endpoint**
+
+🔑 API Access Key
+yt7198252244
+
+> Free for limited users.
+Share feedback and get 1 Month FREE access!
+
+
+
+
+---
+
+💰 Pricing & Plans
+
+All plans include Unlimited Usage – only rate limits vary.
+
+> Need higher limits or custom solutions? Contact us!
+
+
+
+
+---
+
+🧩 Integration
+
+Get started with our open-source bot example:
+Repo: StrangerMusicBot
+
+
+---
+
+📞 Support
+
+Join our community or contact our team via Telegram for:
+
+API Onboarding
+
+Plan Activation
+
+Troubleshooting
+
+
+
+---
+
+⚠️ Disclaimer
+
+This service is intended for personal and educational use.
+Users must follow YouTube’s Terms of Service and Telegram’s Bot Policy.
+
+
+---
+
+<p align="center">
+  Made with ❤️ by <strong>XBITCODE</strong>
+</p>
+```
+
 - <b> _sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ Sparrow For [Core Development](https://github.com/sparrow9616) <br>_sᴩᴇᴄɪᴀʟ ᴛʜᴀɴᴋs ᴛᴏ  Rehanna For [Youtube Proxy](https://github.com/gr8rehanna)  <br>_Maintainer  [Ami](https://github.com/amjiddader) _  </b>
