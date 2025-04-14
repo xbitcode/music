@@ -35,7 +35,7 @@ Introducing a **robust API** for Telegram Music Bots that allows **audio & video
 | 🟢 **Lite**      | 49 requests/hour      | Unlimited   | ₹49                  | API_KEY          |
 | 🔵 **Basic**     | 149 requests/hour     | Unlimited   | ₹149                 | API_KEY          |
 | 🟣 **Pro**       | 299 requests/hour     | Unlimited   | ₹299                 | API_KEY          |
-| 🔴 **Unlimited** | 5000 requests/hour    | Unlimited   | ₹499                 | IP (Single IP)   |
+| 🔴 **Unlimited** | 5000 requests/hour    | Unlimited   | ₹399                 | IP (Single IP)   |
 
 > **Note:** API keys are unique to each user. The Unlimited plan is tied to a single IP address.
 
@@ -48,7 +48,7 @@ Introducing a **robust API** for Telegram Music Bots that allows **audio & video
 **Base Endpoint**
 
 🔑 API Access Key
-yt7198252244
+" yt7198252244 "
 
 > Free for limited users.
 Share feedback and get 1 Month FREE access!
@@ -59,22 +59,17 @@ Share feedback and get 1 Month FREE access!
 🧩 Integration
 
 Get started with our open-source bot example:
-Repo: StrangerMusicBot
+Repo: https://github.com/aashuxxD/Stranger
 
 
 ---
 
-📞 Support
+📞 Contact & Support
 
-Join our community or contact our team via Telegram for:
+Need help or want to subscribe?
 
-API Onboarding
-
-Plan Activation
-
-Troubleshooting
-
-
+Telegram: @Api_and_promotion
+Maintained by: XBITCODE
 
 ---
 
@@ -138,7 +133,7 @@ Press `Ctrl+C` when you're done with editing env and `:wq` to save the env<br>
 </p>
 
 <p align="center">
-<a href="https://telegram.me/amjiddader"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
+<a href="https://telegram.me/Ace_networkop"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
 
 <p align="center">
