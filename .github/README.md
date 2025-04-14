@@ -68,8 +68,8 @@ Repo: https://github.com/aashuxxD/Stranger
 
 Need help or want to subscribe?
 
-Telegram: @Api_and_promotion
-Maintained by: XBITCODE
+Telegram:[ @Api_and_promotion ] (https://t.me/Api_and_promotion)
+Maintained by:  [XBITCODE] (xbitcode.com)
 
 ---
 
