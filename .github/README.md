@@ -72,7 +72,8 @@ Repo: https://github.com/aashuxxD/Stranger
 Need help or want to subscribe?
 
 Telegram:[𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](https://t.me/Api_and_promotion)
-Maintained by:  [Xbitcode](https:xbitcode.com)
+
+Maintained by:  [Xbitcode](xbitcode.com)
 
 ---
 
