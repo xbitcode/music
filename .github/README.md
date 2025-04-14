@@ -8,6 +8,9 @@
 <p align="center">
   Stream Audio & Video in your Telegram Music Bots — fast, secure, and cookie-free.
 </p>
+<p align="center">
+  <img src="https://img.shields.io/badge/license-Commercial-red.svg" alt="License Badge">
+</p>
 
 ---
 
