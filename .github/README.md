@@ -4,24 +4,44 @@
   <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 </p>
 
-<h1 align="center">🎧 Telegram Music Proxy API</h1>
-
+<h1 align="center">🎵 Telegram Music Bot API</h1>
 <p align="center">
-  Built by <strong>XBITCODE</strong> — Stream YouTube Audio & Video in your Telegram bots effortlessly.
-  <br>Fast. Reliable. Cookie-Free.
+  Stream Audio & Video in your Telegram Music Bots — fast, secure, and cookie-free.
 </p>
 
 ---
 
-## ✨ Why Use This API?
+## 🚀 Overview
 
-- 🔊 Stream **Audio + Video** directly from YouTube  
-- ⚡ **High-Speed** Proxy Engine (Updated Version)  
-- ❌ **No Cookies, No Errors** — Just smooth playback  
-- 🔐 API Key or IP-Based Authentication  
-- ⚙️ Ready-to-integrate with your Music or Group Call Bots  
+Introducing a **robust API** for Telegram Music Bots that allows **audio & video playback** with **zero cookies** and **minimal errors**. This API is designed for **developers, music bot owners**, and anyone building scalable music systems on Telegram.
 
 ---
+
+## ✨ Features
+
+- ✅ Audio & Video Streaming Support  
+- ✅ Cookie-free & Error-free Playback  
+- ✅ API Key Based Access  
+- ✅ Flexible Rate Limits  
+- ✅ Affordable Monthly Plans  
+- ✅ Easy Integration (Python, Node.js, C++, etc.)
+
+---
+
+## 💰 Pricing & Plans
+
+| 💼 Plan        | ⚡ Rate Limit         | ♾️ Usage     | 💵 Price (INR/month) | 🔑 Access Type   |
+|---------------|-----------------------|-------------|----------------------|------------------|
+| 🟢 **Lite**      | 49 requests/hour      | Unlimited   | ₹49                  | API_KEY          |
+| 🔵 **Basic**     | 149 requests/hour     | Unlimited   | ₹149                 | API_KEY          |
+| 🟣 **Pro**       | 299 requests/hour     | Unlimited   | ₹299                 | API_KEY          |
+| 🔴 **Unlimited** | 5000 requests/hour    | Unlimited   | ₹499                 | IP (Single IP)   |
+
+> **Note:** API keys are unique to each user. The Unlimited plan is tied to a single IP address.
+
+---
+
+
 
 ## ⚙️ API Usage
 
@@ -32,25 +52,6 @@ yt7198252244
 
 > Free for limited users.
 Share feedback and get 1 Month FREE access!
-
-
-
-
----
-## 💰 Pricing & Plans
-
-> All plans include **Unlimited Usage** — only rate limits vary.
-
-| Plan         | Price (INR) | Rate Limit       | Access Type             |
-|--------------|-------------|------------------|--------------------------|
-| **Lite**     | ₹49/month   | 49 requests/hour | API Key                  |
-| **Basic**    | ₹149/month  | 149 requests/hour| API Key                  |
-| **Pro**      | ₹299/month  | 299 requests/hour| API Key                  |
-| **Unlimited**| ₹399/month  | 5000 requests/hour| IP-Based (Single IP)    |
-
-> Need higher limits or custom solutions? Contact us!
-
-
 
 
 ---
