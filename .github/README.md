@@ -62,8 +62,7 @@ Share feedback and get 1 Month FREE access!
 🧩 Integration
 
 Get started with our open-source bot example:
-Repo: https://github.com/aashuxxD/Stranger
-
+Repo: https://github.com/xbitcode/StrangerMusicBot.git
 
 ---
 
