@@ -1,7 +1,7 @@
 {
-    "name": " ──「 Telegram  Bot 」── ",
-    "description": "A Telegram Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
-    "logo": "https://graph.org/file/e47d7251464ca14a7f576.jpg",
+    "name": "ᴀɴᴏɴ ダ ᴍᴜsɪᴄ",
+    "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
+    "logo": "https://imgur.com/a/zdIwpug",
     "keywords": [
     "python3",
     "telegram",
@@ -36,7 +36,7 @@
         "description": "YT Proxy Server Endpoint",
         "value": "https://tubed.okflix.top",
         "required": true
-      },          
+      },
       "OWNER_ID": {
         "description": "The user id of user whom you would like to add as OWNER.",
         "value": "",
@@ -57,21 +57,6 @@
         "value": "",
         "required": false
       },
-      "YT_API_KEY": {
-        "description": "enter YT_API_KEY here which you have buy from us.",
-        "value": "",
-        "required": true
-      },
-       "SUPPORT_CHANNEL ": {
-        "description": "Bot Support Channel",
-        "value": "",
-        "required": true
-      }, 
-        "SUPPORT_CHAT  ": {
-        "description": "Bot Support Group",
-        "value": "",
-        "required": true
-      },  
       "LOGGER_ID": {
         "description": "Your Log Group ID, add your bot and promote as an admin with full rights!. Channel ki id mat daal dena bsdk.",
         "value": "",
@@ -90,4 +75,4 @@
           }
       ],
       "stack": "container"
-  }
+}
