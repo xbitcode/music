@@ -35,12 +35,5 @@ def private_panel(_):
         [InlineKeyboardButton(text="• sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ •", url=f"https://github.com/xbitcode/music.git")],
     
     ]
-    buttons.append(
-            [
-                InlineKeyboardButton(text="• DEV •", user_id=544633527),
-                InlineKeyboardButton(
-                    text="• REPO •", url=f"https://github.com/xbitcode/music.git"
-                ),
-            ]
-        )
+    
     return buttons
