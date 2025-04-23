@@ -51,7 +51,8 @@ Introducing a **robust API** for Telegram Music Bots that allows **audio & video
 **Base Endpoint**
 
 🔑 API Access Key
-" yt7198252244 "
+
+MSG ME [𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](https://t.me/Api_and_promotion)
 
 > Free for limited users.
 Share feedback and get 1 Month FREE access!
