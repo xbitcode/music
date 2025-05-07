@@ -435,15 +435,15 @@ class YouTubeAPI:
         def audio_dl(vid_id):
             try:
                 session = create_session()
-                res = session.get(f"{YTPROXY}/api/{vid_id}/key={YT_API_KEY}", timeout=300)
+                res = session.get(f"{YTPROXY}/api/info?video_id={vid_id}", headers={'x-api-key': f"{YT_API_KEY}"}, timeout=300)
                 response = res.json()
 
-                if response['status'] == 'success':
-                    xyz = os.path.join("downloads", f"{vid_id}.{response['ext']}")
+                if res.status_code == 200 and response['status'] == 'success':
+                    xyz = os.path.join("downloads", f"{vid_id}.m4a")
                     if os.path.exists(xyz):
                         return xyz
 
-                    ydl_opts = get_ydl_opts(f"downloads/{vid_id}.{response['ext']}")
+                    ydl_opts = get_ydl_opts(f"downloads/{vid_id}.m4a")
                     with ThreadPoolExecutor(max_workers=4) as executor:
                         future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download([response['download_url']]))
                         future.result()  # Wait for download to complete
