@@ -444,10 +444,16 @@ class YouTubeAPI:
                     if os.path.exists(xyz):
                         return xyz
 
-                    ydl_opts = get_ydl_opts(f"downloads/{vid_id}.m4a")
-                    with ThreadPoolExecutor(max_workers=4) as executor:
-                        future = executor.submit(lambda: yt_dlp.YoutubeDL({**ydl_opts, 'http_headers': headers}).download([response['download_url']]))
-                        future.result()  # Wait for download to complete
+                    with session.get(response['download_url'], headers=headers, stream=True, timeout=300) as r:
+                        r.raise_for_status()
+                        total_size = int(r.headers.get('content-length', 0))
+                        block_size = 1024 * 1024  # 1MB chunks
+                        
+                        with open(xyz, 'wb') as f:
+                            for chunk in r.iter_content(chunk_size=block_size):
+                                if chunk:  # filter out keep-alive chunks
+                                    f.write(chunk)
+                    
                     return xyz
                 else:
                     print(f"Proxy returned error status: {response}")
