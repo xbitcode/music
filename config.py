@@ -17,7 +17,7 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
 
 # Vars For API End Pont.
-YTPROXY_URL = getenv("YTPROXY_URL", 'http://tubed3.okflix.top/') ## E.G https://yt.okflix.
+YTPROXY_URL = getenv("YTPROXY_URL", 'http://tubed2.okflix.top/') ## E.G https://yt.okflix.
 YT_API_KEY = "freekey15052025"
 COOKIES_URL=getenv("COOKIES_URL" , "https://gist.githubusercontent.com/sparrow9616/f29fc6588086a3c72d92dd9c03773350/raw/4229f3f4aab4a6693fc0794d136d30f54d67ae85/gistfile1.txt")
 
