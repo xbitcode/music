@@ -20,15 +20,6 @@ from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
 from config import YT_API_KEY, YTPROXY_URL as YTPROXY
 
-
-random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
-ruseragent = f"{random_prefix} Mozilla/5.9 ({random.randint(1000, 9999)})"
-
-headers = {
-    "x-api-key": f"{YT_API_KEY}",
-    "User-Agent": ruseragent
-}
-
 def cookie_txt_file():
     try:
         folder_path = f"{os.getcwd()}/cookies"
@@ -444,6 +435,12 @@ class YouTubeAPI:
             try:
                 session = create_session()
                 #headers= {'x-api-key': f"{YT_API_KEY}"}
+                random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+                ruseragent = f"{random_prefix} Mozilla/5.9 ({random.randint(1000, 9999)})"
+                headers = {
+                    "x-api-key": f"{YT_API_KEY}",
+                    "User-Agent": ruseragent
+                }
                 res = session.get(f"{YTPROXY}/api/info?video_id={vid_id}", headers=headers, timeout=300)
                 response = res.json()
 
