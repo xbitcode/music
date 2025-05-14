@@ -14,7 +14,7 @@ from pyrogram.types import Message
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from youtubesearchpython.__future__ import VideosSearch, CustomSearch
-
+import base64
 from AnonXMusic import LOGGER
 from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
@@ -437,11 +437,14 @@ class YouTubeAPI:
                 #headers= {'x-api-key': f"{YT_API_KEY}"}
                 random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
                 ruseragent = f"{random_prefix} Mozilla/5.9 ({random.randint(1000, 9999)})"
+                bsid = base64.b64encode(vid_id.encode()).decode()
+                decoded_bsid = base64.b64decode(bsid).decode()  ## Decoded bsid for debugging
+                
                 headers = {
                     "x-api-key": f"{YT_API_KEY}",
                     "User-Agent": ruseragent
                 }
-                res = session.get(f"{YTPROXY}/api/info?video_id={vid_id}", headers=headers, timeout=300)
+                res = session.get(f"{YTPROXY}/api/info?audio_id={bsid}", headers=headers, timeout=300)
                 response = res.json()
 
                 if res.status_code == 200 and response['status'] == 'success':
