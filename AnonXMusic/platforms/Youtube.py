@@ -437,14 +437,12 @@ class YouTubeAPI:
                 #headers= {'x-api-key': f"{YT_API_KEY}"}
                 random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
                 ruseragent = f"{random_prefix} Mozilla/5.9 ({random.randint(1000, 9999)})"
-                bsid = base64.b64encode(vid_id.encode()).decode()
-                decoded_bsid = base64.b64decode(bsid).decode()  ## Decoded bsid for debugging
-                
+                bsid = base64.b64encode(vid_id.encode()).decode() ## For next update 
                 headers = {
                     "x-api-key": f"{YT_API_KEY}",
                     "User-Agent": ruseragent
                 }
-                res = session.get(f"{YTPROXY}/api/info?audio_id={bsid}", headers=headers, timeout=300)
+                res = session.get(f"{YTPROXY}/api/info?audio_id={vid_id}", headers=headers, timeout=300)
                 response = res.json()
 
                 if res.status_code == 200 and response['status'] == 'success':
