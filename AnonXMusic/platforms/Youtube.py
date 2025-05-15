@@ -442,7 +442,7 @@ class YouTubeAPI:
                     "x-api-key": f"{YT_API_KEY}",
                     "User-Agent": ruseragent
                 }
-                res = session.get(f"{YTPROXY}/api/info?audio_id={vid_id}", headers=headers, timeout=300)
+                res = session.get(f"{YTPROXY}/api/info?video_id={vid_id}", headers=headers, timeout=300)
                 response = res.json()
 
                 if res.status_code == 200 and response['status'] == 'success':
