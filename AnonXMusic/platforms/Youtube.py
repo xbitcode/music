@@ -517,7 +517,11 @@ class YouTubeAPI:
                     xyz = os.path.join("downloads", f"{vid_id}.mp4")
                     if os.path.exists(xyz):
                         return xyz
-
+                    getVideo = session.get(f"{YTPROXY}/beta/{vid_id}", headers=headers, timeout=60)
+                    videoData = getVideo.json()
+                    videolink = videoData['video_sd']
+                    video_url = base64.b64decode(videolink).decode()
+                    
                     ydl_opts = get_ydl_opts(f"downloads/{vid_id}.mp4")
                     with ThreadPoolExecutor(max_workers=4) as executor:
                         future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download([response['video_url']]))
