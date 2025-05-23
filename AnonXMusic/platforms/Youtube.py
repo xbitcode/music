@@ -423,10 +423,8 @@ class YouTubeAPI:
             return {
                 "outtmpl": output_path,
                 "quiet": True,
-                "concurrent-fragments": 16,  # Increased from 10
-                "fragment-retries": 3,
-                "retries": 1,
-                "file_access_retries": 3,
+                "concurrent-fragments": 99,  # Increased from 10
+                "retries": 3,
                 # "http-chunk-size": 10485760,  # 10MB chunks
                 # "buffersize": 32768,
             }
@@ -472,30 +470,28 @@ class YouTubeAPI:
         #     return None
 
 
-        ## New updated Method...
+        #  New updated Method...
         def audio_dl(vid_id):
             try:
                 session = create_session()
-                
                 headers = {
                     "x-api-key": f"{YT_API_KEY}",
-                    "User-Agent": ruseragent
+                    "User-Agent": "Mozilla/5"
                 }
-                check = session.get(f"{YTPROXY}", headers=headers, timeout=20)
-                checked = res.json()
-
-                if checked['status'] == 'success':
+                fuck = "ok"
+                if fuck == "ok":
                     xyz = os.path.join("downloads", f"{vid_id}.mp3")
                     if os.path.exists(xyz):
                         return xyz
                 ### Here send actully request dude.
                     getAudio = session.get(f"{YTPROXY}/audio/{vid_id}", headers=headers, timeout=60)
                     songData = getAudio.json()
-                    audio_url = base64.b64decode(audio_url).decode()
+                    songlink = songData['audio_url']
+                    audio_url = base64.b64decode(songlink).decode()
                     ydl_opts = get_ydl_opts(f"downloads/{vid_id}.mp3")
                     with ThreadPoolExecutor(max_workers=4) as executor:
-                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download(audio_url)
-                        future.result()  # Wait for download to complete
+                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download(audio_url))
+                        future.result()
                     return xyz
                 else:
                     print(f"Proxy returned error status: {response}")
@@ -512,10 +508,10 @@ class YouTubeAPI:
         def video_dl(vid_id):
             try:
                 session = create_session()
-                res = session.get(f"{YTPROXY}/api/{vid_id}/key={YT_API_KEY}", timeout=300)
-                response = res.json()
-
-                if response['status'] == 'success':
+                # res = session.get(f"{YTPROXY}/api/{vid_id}/key={YT_API_KEY}", timeout=300)
+                # response = res.json()
+                loda = "ok"
+                if loda == 'ok':
                     xyz = os.path.join("downloads", f"{vid_id}.mp4")
                     if os.path.exists(xyz):
                         return xyz
