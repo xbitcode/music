@@ -424,42 +424,78 @@ class YouTubeAPI:
                 "outtmpl": output_path,
                 "quiet": True,
                 "concurrent-fragments": 16,  # Increased from 10
-                "fragment-retries": 10,
-                "retries": 3,
+                "fragment-retries": 3,
+                "retries": 1,
                 "file_access_retries": 3,
-                "http-chunk-size": 10485760,  # 10MB chunks
-                "buffersize": 32768,
+                # "http-chunk-size": 10485760,  # 10MB chunks
+                # "buffersize": 32768,
             }
+        ## Method added by sparrow...
+        # def audio_dl(vid_id):
+        #     try:
+        #         session = create_session()
+        #         random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+        #         ruseragent = f"{random_prefix} Mozilla/5.9 ({random.randint(1000, 9999)})"
+        #         bsid = base64.b64encode(vid_id.encode()).decode() ## For next update 
+        #         headers = {
+        #             "x-api-key": f"{YT_API_KEY}",
+        #             "User-Agent": ruseragent
+        #         }
+        #         res = session.get(f"{YTPROXY}/api/info?video_id={vid_id}", headers=headers, timeout=300)
+        #         response = res.json()
 
+        #         if res.status_code == 200 and response['status'] == 'success':
+        #             xyz = os.path.join("downloads", f"{vid_id}.m4a")
+        #             if os.path.exists(xyz):
+        #                 return xyz
+
+        #             with session.get(response['download_url'], headers=headers, stream=True, timeout=300) as r:
+        #                 r.raise_for_status()
+        #                 total_size = int(r.headers.get('content-length', 0))
+        #                 block_size = 1024 * 1024  # 1MB chunks
+                        
+        #                 with open(xyz, 'wb') as f:
+        #                     for chunk in r.iter_content(chunk_size=block_size):
+        #                         if chunk:  # filter out keep-alive chunks
+        #                             f.write(chunk)
+                    
+        #             return xyz
+        #         else:
+        #             print(f"Proxy returned error status: {response}")
+
+        #     except requests.exceptions.RequestException as e:
+        #         print(f"Network error while downloading: {str(e)}")
+        #     except json.JSONDecodeError as e:
+        #         print(f"Invalid response from proxy: {str(e)}")
+        #     except Exception as e:
+        #         print(f"Error in downloading song: {str(e)}")
+        #     return None
+
+
+        ## New updated Method...
         def audio_dl(vid_id):
             try:
                 session = create_session()
-                #headers= {'x-api-key': f"{YT_API_KEY}"}
-                random_prefix = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
-                ruseragent = f"{random_prefix} Mozilla/5.9 ({random.randint(1000, 9999)})"
-                bsid = base64.b64encode(vid_id.encode()).decode() ## For next update 
+                
                 headers = {
                     "x-api-key": f"{YT_API_KEY}",
                     "User-Agent": ruseragent
                 }
-                res = session.get(f"{YTPROXY}/api/info?video_id={vid_id}", headers=headers, timeout=300)
-                response = res.json()
+                check = session.get(f"{YTPROXY}", headers=headers, timeout=20)
+                checked = res.json()
 
-                if res.status_code == 200 and response['status'] == 'success':
-                    xyz = os.path.join("downloads", f"{vid_id}.m4a")
+                if checked['status'] == 'success':
+                    xyz = os.path.join("downloads", f"{vid_id}.mp3")
                     if os.path.exists(xyz):
                         return xyz
-
-                    with session.get(response['download_url'], headers=headers, stream=True, timeout=300) as r:
-                        r.raise_for_status()
-                        total_size = int(r.headers.get('content-length', 0))
-                        block_size = 1024 * 1024  # 1MB chunks
-                        
-                        with open(xyz, 'wb') as f:
-                            for chunk in r.iter_content(chunk_size=block_size):
-                                if chunk:  # filter out keep-alive chunks
-                                    f.write(chunk)
-                    
+                ### Here send actully request dude.
+                    getAudio = session.get(f"{YTPROXY}/audio/{vid_id}", headers=headers, timeout=60)
+                    songData = getAudio.json()
+                    audio_url = base64.b64decode(audio_url).decode()
+                    ydl_opts = get_ydl_opts(f"downloads/{vid_id}.mp3")
+                    with ThreadPoolExecutor(max_workers=4) as executor:
+                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download(audio_url)
+                        future.result()  # Wait for download to complete
                     return xyz
                 else:
                     print(f"Proxy returned error status: {response}")
@@ -471,6 +507,7 @@ class YouTubeAPI:
             except Exception as e:
                 print(f"Error in downloading song: {str(e)}")
             return None
+        
 
         def video_dl(vid_id):
             try:
