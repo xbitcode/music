@@ -508,8 +508,10 @@ class YouTubeAPI:
         def video_dl(vid_id):
             try:
                 session = create_session()
-                # res = session.get(f"{YTPROXY}/api/{vid_id}/key={YT_API_KEY}", timeout=300)
-                # response = res.json()
+                headers = {
+                    "x-api-key": f"{YT_API_KEY}",
+                    "User-Agent": "Mozilla/5"
+                }
                 loda = "ok"
                 if loda == 'ok':
                     xyz = os.path.join("downloads", f"{vid_id}.mp4")
