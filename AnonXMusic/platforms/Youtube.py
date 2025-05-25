@@ -20,6 +20,8 @@ from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
 from config import YT_API_KEY, YTPROXY_URL as YTPROXY
 
+logger = LOGGER(__name__)
+
 def cookie_txt_file():
     try:
         folder_path = f"{os.getcwd()}/cookies"
@@ -423,6 +425,9 @@ class YouTubeAPI:
             return {
                 "outtmpl": output_path,
                 "quiet": True,
+                "xff": "IN",
+                "nocheckcertificate": True,
+                "compat-options": "allow-unsafe-ext",
                 "concurrent-fragments": 99,  # Increased from 10
                 "retries": 3,
                 # "http-chunk-size": 10485760,  # 10MB chunks
@@ -487,6 +492,7 @@ class YouTubeAPI:
                     getAudio = session.get(f"{YTPROXY}/audio/{vid_id}", headers=headers, timeout=60)
                     songData = getAudio.json()
                     songlink = songData['audio_url']
+                    logger.debug(f"Got url {songlink}")
                     audio_url = base64.b64decode(songlink).decode()
                     ydl_opts = get_ydl_opts(f"downloads/{vid_id}.mp3")
                     with ThreadPoolExecutor(max_workers=4) as executor:
@@ -521,11 +527,11 @@ class YouTubeAPI:
                     videoData = getVideo.json()
                     videolink = videoData['video_sd']
                     video_url = base64.b64decode(videolink).decode()
-                    
+                    logger.debug(f"Got video url {video_url}")
                     ydl_opts = get_ydl_opts(f"downloads/{vid_id}.mp4")
                     with ThreadPoolExecutor(max_workers=4) as executor:
-                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download([response['video_url']]))
-                        future.result()  # Wait for download to complete
+                        future = executor.submit(lambda: yt_dlp.YoutubeDL(ydl_opts).download(video_url))
+                        future.result()  
                     return xyz
                 else:
                     print(f"Proxy returned error status: {response}")
