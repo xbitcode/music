@@ -37,6 +37,11 @@
         "value": "https://tubed.okflix.top",
         "required": true
       },
+      "YT_API_KEY": {
+        "description": "YT Proxy Server Key",
+        "value": "",
+        "required": true
+      },
       "OWNER_ID": {
         "description": "The user id of user whom you would like to add as OWNER.",
         "value": "",
