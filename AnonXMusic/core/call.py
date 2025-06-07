@@ -248,7 +248,7 @@ class Call(PyTgCalls):
                 video_parameters=VideoQuality.SD_480p,
             )
         else:
-            stream = MediaStream(link, audio_parameters=AudioQuality.HIGH,video_flags=MediaStream.Flags.IGNORE, ytdlp_parameters=f"--cookies {cookie_txt_file()}")
+            stream = MediaStream(link, audio_parameters=AudioQuality.HIGH,video_flags=MediaStream.Flags.IGNORE)
         await assistant.play(
             chat_id,
             stream,
@@ -312,7 +312,7 @@ class Call(PyTgCalls):
                     
                 )
                 if video
-                else MediaStream(link, audio_parameters=AudioQuality.HIGH,video_flags=MediaStream.Flags.IGNORE, ytdlp_parameters=f"--cookies {cookie_txt_file()}")
+                else MediaStream(link, audio_parameters=AudioQuality.HIGH,video_flags=MediaStream.Flags.IGNORE)
             )
         try:
             await assistant.play(
@@ -396,8 +396,7 @@ class Call(PyTgCalls):
                 else:
                     stream = MediaStream(
                         link,
-                        audio_parameters=AudioQuality.HIGH,
-                        ytdlp_parameters=f"--cookies {cookie_txt_file()}"
+                        audio_parameters=AudioQuality.HIGH
                     )
                 try:
                     await client.play(chat_id, stream)
@@ -443,8 +442,7 @@ class Call(PyTgCalls):
                 else:
                     stream = MediaStream(
                         file_path,
-                        audio_parameters=AudioQuality.HIGH,
-                        ytdlp_parameters=f"--cookies {cookie_txt_file()}"
+                        audio_parameters=AudioQuality.HIGH
                     )
                 try:
                     await client.play(chat_id, stream)
@@ -477,7 +475,7 @@ class Call(PyTgCalls):
                         video_parameters=VideoQuality.SD_480p,
                     )
                     if str(streamtype) == "video"
-                    else MediaStream(videoid, audio_parameters=AudioQuality.HIGH, ytdlp_parameters=f"--cookies {cookie_txt_file()}")
+                    else MediaStream(videoid, audio_parameters=AudioQuality.HIGH)
                 )
                 try:
                     await client.play(chat_id, stream)
@@ -505,8 +503,7 @@ class Call(PyTgCalls):
                 else:
                     stream = MediaStream(
                         queued,
-                        audio_parameters=AudioQuality.HIGH,
-                        ytdlp_parameters=f"--cookies {cookie_txt_file()}"
+                        audio_parameters=AudioQuality.HIGH
                     )
                 try:
                     await client.play(chat_id, stream)
