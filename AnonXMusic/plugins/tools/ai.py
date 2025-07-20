@@ -38,13 +38,13 @@ SHORT_QUERIES = [
     # Hindi
     "namaste", "namaskar", "kaise ho", "kaisi ho", "thik hu", "thik hoon", "accha", "acha", "shukriya", "dhanyavad", "haan", "nahi", "theek hai", "kya haal hai", "bhai", "bhaiya", "didi", "bhaiya!", "didi!", "haan!", "nahi!", "shukriya!", "dhanyavad!", "accha!", "acha!", "thik!", "thik hai!", "kaise ho?", "kaisi ho?", "kya haal hai?",
 
-    # Spanish
+    # Spanish using AI 
     "hola", "buenos dias", "buenas noches", "adios", "gracias", "vale", "si", "no", "que tal", "como estas", "bien", "mal", "hola!", "adios!", "gracias!", "vale!", "si!", "no!", "bien!", "mal!",
 
-    # French
+    # French using AI 
     "salut", "bonjour", "bonsoir", "merci", "oui", "non", "ça va", "bien", "mal", "salut!", "bonjour!", "merci!", "oui!", "non!", "ça va?", "bien!", "mal!",
 
-    # Other
+    # Other as told by Ai not sure wth they are .
     "ciao", "ola", "yo!", "sup!", "aloha", "wassup", "wassup?", "yo yo", "yo yo!", "yo!", "sup!", "hey!", "hi!", "hello!", "bye!", "ok!", "okay!", "fine!", "good!", "nice!", "cool!", "yes!", "no!", "thanks!", "welcome!", "ciao!", "ola!", "aloha!", "wassup!", "wassup?", "yo yo!", "yo yo!", "yo!", "sup!", "hey!", "hi!", "hello!", "bye!", "ok!", "okay!", "fine!", "good!", "nice!", "cool!", "yes!", "no!", "thanks!", "welcome!"
 ][:100]
 
