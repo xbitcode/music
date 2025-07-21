@@ -535,7 +535,7 @@ class YouTubeAPI:
                 xyz = os.path.join("downloads", f"{vid_id}.mp4")
                 if os.path.exists(xyz):
                     return xyz
-                getVideo = requests.get(f"{YTPROXY}/beta/{vid_id}", headers=headers, timeout=60)
+                getVideo = requests.get(f"{YTPROXY}/video/{vid_id}", headers=headers, timeout=60)
                 try:
                     videoData = getVideo.json()
                 except Exception as e:
