@@ -8,7 +8,6 @@ from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.enums import ParseMode
 from AnonXMusic import app ## make sure you use your own repo module name 
-from AnonXMusic.misc import SUDOERS
 from config import BANNED_USERS
 from config import YT_API_KEY as AI_KEY 
 from config import YTPROXY_URL as AI_ENDPOINT
@@ -23,6 +22,7 @@ user_last_request = {}
 RATE_LIMIT_SECONDS = 5  
 
 AI_COMMANDS = ["ai", "gpt", "chatgpt", "gpt4", "gemini", "ami"]
+USAGE_CMDS = ["api", "apikey", "usage"]
 
 INSTANT_REPLIES = [
     "Hey there! How can I help you today?",
@@ -134,6 +134,7 @@ async def make_ai_request(query: str) -> tuple[bool, str]:
         logger.error(f"Unexpected error in AI request: {e}")
         return False, random.choice(ERROR_MESSAGES)
 
+
 @app.on_message(filters.command(AI_COMMANDS) & ~BANNED_USERS)
 async def ai_chat(client, message: Message):
     """Enhanced AI chat handler with better error handling and rate limiting"""
@@ -177,14 +178,14 @@ async def ai_chat(client, message: Message):
 
 
 
-@app.on_message(filters.command(["api", "apikey", "usage"]) & SUDOERS)
+@app.on_message(filters.command(USAGE_CMDS) & ~BANNED_USERS)
 async def api_stats(client, message: Message):
-    """Check AI API status and usage (SUDO only)"""
+    """Check AI API status and usage (Available to all users)"""
     start_time = datetime.now()
     
     try:
         if not AI_ENDPOINT or not AI_KEY:
-            await message.reply_text("❌ AI configuration is missing.")
+            await message.reply_text("❌ Not using xBit API endpoint please contact @amigr8bot.")
             return
             
         status_msg = await message.reply_text("🔍 Checking API status...", quote=True)
@@ -207,8 +208,8 @@ async def api_stats(client, message: Message):
 📡 **Endpoint:** `{AI_ENDPOINT}`
 🔑 **API Key:** `{"*" * (len(AI_KEY)-8) + AI_KEY[-4:] if len(AI_KEY) > 8 else "****"}`
 
-**Raw Response:**
-```json
+**API KEY STATUS**
+```
 {json.dumps(data, indent=2)}
 ```
             """
@@ -216,7 +217,7 @@ async def api_stats(client, message: Message):
             status_text = f"""
 🔧 **AI API Status**
 
-✅ **Status:** Online (Non-JSON Response)
+✅ **Status:** Unknown
 ⏱️ **Response Time:** {response_time:.2f}s
 📡 **Endpoint:** `{AI_ENDPOINT}`
 

@@ -439,6 +439,7 @@ class YouTubeAPI:
                 url
             ]
             
+            # Add headers  x-api-key for authentication required now in 3.5.0
             if headers:
                 for key, value in headers.items():
                     cmd.extend(["-H", f"{key}: {value}"])
@@ -473,6 +474,7 @@ class YouTubeAPI:
             try:
                 session = create_session()
                 
+                # Use headers for authentication (including x-api-key)
                 response = session.get(url, headers=headers, stream=True, timeout=60)
                 response.raise_for_status()
                 
