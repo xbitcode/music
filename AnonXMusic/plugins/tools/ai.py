@@ -7,12 +7,16 @@ from datetime import datetime, timedelta
 from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.enums import ParseMode
+from pyrogram.errors import FloodWait
 from AnonXMusic import app ## make sure you use your own repo module name 
+from AnonXMusic.utils.database import get_model_settings
 from config import BANNED_USERS
 from config import YT_API_KEY as AI_KEY 
 from config import YTPROXY_URL as AI_ENDPOINT
 import random
 import logging
+import asyncio
+import aiohttp
 
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
@@ -72,6 +76,32 @@ PROCESSING_MESSAGES = [
     "🤔 Let me ponder that for a sec..."
 ]
 
+TTS_PROCESSING_MESSAGES = [
+    "🎵 Generating your audio...",
+    "🎤 Converting text to speech...",
+    "🔊 Creating voice output...",
+    "🎧 Processing your text...",
+    "📣 Synthesizing speech...",
+    "🎼 Composing audio...",
+    "🔈 Building sound waves...",
+    "🎶 Crafting your voice message...",
+    "📢 Converting to audio...",
+    "🎙️ Preparing voice output..."
+]
+
+IMAGE_PROCESSING_MESSAGES = [
+    "🎨 Creating your image...",
+    "🖼️ Generating artwork...",
+    "🎭 Crafting visual masterpiece...",
+    "🖌️ Painting with AI...",
+    "📸 Capturing imagination...",
+    "🎨 Designing your vision...",
+    "🖼️ Building visual content...",
+    "🎭 Composing digital art...",
+    "🖌️ Rendering image...",
+    "📸 Processing visual request..."
+]
+
 ERROR_MESSAGES = [
     "🚫 Oops! Something went wrong with the AI service.",
     "⚠️ AI is taking a coffee break. Try again in a moment.",
@@ -88,6 +118,13 @@ def check_rate_limit(user_id: int) -> bool:
             return False
     user_last_request[user_id] = now
     return True
+
+async def handle_flood_wait(func, *args, **kwargs):
+    while True:
+        try:
+            return await func(*args, **kwargs)
+        except FloodWait as e:
+            await asyncio.sleep(e.value)
 
 def clean_query(text: str) -> str:
     """Clean and normalize query text"""
@@ -141,21 +178,23 @@ async def ai_chat(client, message: Message):
     user_id = message.from_user.id
     
     if not check_rate_limit(user_id):
-        await message.reply_text(
+        await handle_flood_wait(message.reply_text,
             f"⏱️ Please wait {RATE_LIMIT_SECONDS} seconds between AI requests.",
             quote=True
         )
         return
     
     if len(message.command) < 2:
-        return await message.reply_text(random.choice(INSTANT_REPLIES), quote=True)
+        await handle_flood_wait(message.reply_text, random.choice(INSTANT_REPLIES), quote=True)
+        return
     
     query = message.text.split(None, 1)[1].strip()
     
     if is_short_query(query):
-        return await message.reply_text(random.choice(INSTANT_REPLIES), quote=True)
+        await handle_flood_wait(message.reply_text, random.choice(INSTANT_REPLIES), quote=True)
+        return
     
-    processing_msg = await message.reply_text(random.choice(PROCESSING_MESSAGES), quote=True)
+    processing_msg = await handle_flood_wait(message.reply_text, random.choice(PROCESSING_MESSAGES), quote=True)
     
     try:
         success, response = await make_ai_request(query)
@@ -165,18 +204,16 @@ async def ai_chat(client, message: Message):
             if len(response) > 4000:
                 formatted_response += "\n\n📝 *Response truncated due to length limit.*"
             
-            await processing_msg.edit_text(formatted_response, parse_mode=ParseMode.MARKDOWN)
+            await handle_flood_wait(processing_msg.edit_text, formatted_response, parse_mode=ParseMode.MARKDOWN)
         else:
-            await processing_msg.edit_text(response)
+            await handle_flood_wait(processing_msg.edit_text, response)
             
     except Exception as e:
         logger.error(f"Error in ai_chat: {e}")
-        await processing_msg.edit_text(
+        await handle_flood_wait(processing_msg.edit_text,
             "❌ An unexpected error occurred. Please try again later.",
             parse_mode=ParseMode.MARKDOWN
         )
-
-
 
 @app.on_message(filters.command(USAGE_CMDS) & ~BANNED_USERS)
 async def api_stats(client, message: Message):
@@ -185,10 +222,10 @@ async def api_stats(client, message: Message):
     
     try:
         if not AI_ENDPOINT or not AI_KEY:
-            await message.reply_text("❌ Not using xBit API endpoint please contact @amigr8bot.")
+            await handle_flood_wait(message.reply_text, "❌ Not using xBit API endpoint please contact @amigr8bot.")
             return
             
-        status_msg = await message.reply_text("🔍 Checking API status...", quote=True)
+        status_msg = await handle_flood_wait(message.reply_text, "🔍 Checking API status...", quote=True)
         
         url = f"{AI_ENDPOINT}/status"
         headers = {'x-api-key': AI_KEY}
@@ -227,14 +264,198 @@ async def api_stats(client, message: Message):
 ```
             """
         
-        await status_msg.edit_text(status_text, parse_mode=ParseMode.MARKDOWN)
+        await handle_flood_wait(status_msg.edit_text, status_text, parse_mode=ParseMode.MARKDOWN)
         
     except requests.exceptions.Timeout:
-        await status_msg.edit_text("⏰ API request timed out.")
+        await handle_flood_wait(status_msg.edit_text, "⏰ API request timed out.")
     except requests.exceptions.ConnectionError:
-        await status_msg.edit_text("🌐 Connection error - API might be down.")
+        await handle_flood_wait(status_msg.edit_text, "🌐 Connection error - API might be down.")
     except requests.exceptions.HTTPError as e:
-        await status_msg.edit_text(f"🚫 HTTP Error: {e.response.status_code}")
+        await handle_flood_wait(status_msg.edit_text, f"🚫 HTTP Error: {e.response.status_code}")
     except Exception as e:
         logger.error(f"Error in api_stats: {e}")
-        await status_msg.edit_text(f"❌ Unexpected error: {str(e)[:100]}")
+        await handle_flood_wait(status_msg.edit_text, f"❌ Unexpected error: {str(e)[:100]}")
+
+@app.on_message(filters.command("tts") & ~BANNED_USERS)
+async def tts_command(client, message: Message):
+    """Handle TTS commands"""
+    user_id = message.from_user.id
+    if not check_rate_limit(user_id):
+        await handle_flood_wait(message.reply_text,
+            f"⏱️ Please wait {RATE_LIMIT_SECONDS} seconds between TTS requests.",
+            quote=True
+        )
+        return
+
+    if len(message.command) < 2:
+        await handle_flood_wait(message.reply_text, "Please provide a text to convert to speech.", quote=True)
+        return
+
+    text = message.text.split(None, 1)[1].strip()
+    processing_msg = await handle_flood_wait(message.reply_text, "🔄 Processing your request...", quote=True)
+
+    task = asyncio.create_task(make_tts_request(text))
+
+    # Loop updating message while waiting
+    while not task.done():
+        await asyncio.sleep(5)  # Wait 5 seconds
+        if not task.done():
+            await handle_flood_wait(processing_msg.edit_text, random.choice(TTS_PROCESSING_MESSAGES))
+
+    # Get the result
+    try:
+        success, audio_bytes, model = task.result()
+        if success:
+            # Send the audio file
+            await handle_flood_wait(message.reply_audio,
+                audio=audio_bytes,
+                title=f"TTS Audio - {model}",
+                performer="AI Assistant",
+                caption=f"🎤 **Model:** {model}\n📝 **Text:** {text[:100]}{'...' if len(text) > 100 else ''}",
+                quote=True
+            )
+            await handle_flood_wait(processing_msg.delete)
+        else:
+            await handle_flood_wait(processing_msg.edit_text, audio_bytes)
+    except Exception as e:
+        logger.error(f"Error in tts_command: {e}")
+        await handle_flood_wait(processing_msg.edit_text, "❌ An unexpected error occurred. Please try again later.")
+
+async def make_tts_request(text: str) -> tuple[bool, bytes | str, str]:
+    """Make TTS API request with proper error handling"""
+    try:
+        if not AI_ENDPOINT or not AI_KEY:
+            return False, "❌ TTS configuration is missing. Please contact administrator.", ""
+
+        # Get current TTS model from database if not provided
+        model_settings = await get_model_settings()
+        model = model_settings.get("tts", "athena")
+
+        url = f"{AI_ENDPOINT}/tts/generate"
+        headers = {
+            "Content-Type": "application/json",
+            "x-api-key": AI_KEY,
+            "model": model
+
+        }
+
+        body = {
+            "text": text,
+        }
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=body, timeout=aiohttp.ClientTimeout(total=60)) as response:
+                response.raise_for_status()
+                
+                audio_bytes = await response.read()
+                if audio_bytes:
+                    return True, audio_bytes, model
+                else:
+                    return False, "❌ TTS generation failed. Empty audio response.", ""
+
+    except asyncio.TimeoutError:
+        return False, "⏰ TTS request timed out. Please try again.", ""
+    except aiohttp.ClientConnectionError:
+        return False, "🌐 Connection error. Please check your internet connection.", ""
+    except aiohttp.ClientResponseError as e:
+        if e.status == 400:
+            return False, "❌ Invalid request. Please check your text length and try again.", ""
+        elif e.status == 401:
+            return False, "❌ Invalid API key. Please contact administrator.", ""
+        elif e.status == 429:
+            return False, "⏱️ Rate limit exceeded. Please wait a moment and try again.", ""
+        else:
+            return False, f"🚫 Server error: {e.status}. Please try again later.", ""
+    except Exception as e:
+        logger.error(f"Unexpected error in TTS request: {e}")
+        return False, "❌ An unexpected error occurred. Please try again later.", ""
+
+@app.on_message(filters.command("image") & ~BANNED_USERS)
+async def image_command(client, message: Message):
+    """Handle image generation commands"""
+    user_id = message.from_user.id
+    if not check_rate_limit(user_id):
+        await handle_flood_wait(message.reply_text,
+            f"⏱️ Please wait {RATE_LIMIT_SECONDS} seconds between image requests.",
+            quote=True
+        )
+        return
+
+    if len(message.command) < 2:
+        await handle_flood_wait(message.reply_text, "Please provide a description for the image.", quote=True)
+        return
+
+    text = message.text.split(None, 1)[1].strip()
+    processing_msg = await handle_flood_wait(message.reply_text, "🎨 Processing your image request...", quote=True)
+
+    task = asyncio.create_task(make_image_request(text))
+
+    # Loop updating message while waiting
+    while not task.done():
+        await asyncio.sleep(5)  # Wait 5 seconds
+        if not task.done():
+            await handle_flood_wait(processing_msg.edit_text, random.choice(IMAGE_PROCESSING_MESSAGES))
+
+    # Get the result
+    try:
+        success, image_bytes = task.result()
+        if success:
+            # Send the image file
+            await handle_flood_wait(message.reply_photo,
+                photo=image_bytes,
+                caption=f"🎨 **AI Generated Image**\n📝 **Prompt:** {text[:200]}{'...' if len(text) > 200 else ''}",
+                quote=True
+            )
+            await handle_flood_wait(processing_msg.delete)
+        else:
+            await handle_flood_wait(processing_msg.edit_text, image_bytes)
+    except Exception as e:
+        logger.error(f"Error in image_command: {e}")
+        await handle_flood_wait(processing_msg.edit_text, "❌ An unexpected error occurred. Please try again later.")
+
+async def make_image_request(text: str) -> tuple[bool, bytes | str]:
+    """Make image generation API request with proper error handling"""
+    try:
+        if not AI_ENDPOINT or not AI_KEY:
+            return False, "❌ Image generation configuration is missing. Please contact administrator."
+        
+        model_settings = await get_model_settings()
+        model = model_settings.get("image", "stable-diffusion")
+
+        url = f"{AI_ENDPOINT}/image/generate"
+        headers = {
+            "Content-Type": "application/json",
+            "x-api-key": AI_KEY,
+            "model": model
+        }
+
+        body = {
+            "prompt": text,
+        }
+
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=body, timeout=aiohttp.ClientTimeout(total=120)) as response:
+                response.raise_for_status()
+                
+                image_bytes = await response.read()
+                if image_bytes:
+                    return True, image_bytes
+                else:
+                    return False, "❌ Image generation failed. Empty image response."
+
+    except asyncio.TimeoutError:
+        return False, "⏰ Image generation timed out. Please try again."
+    except aiohttp.ClientConnectionError:
+        return False, "🌐 Connection error. Please check your internet connection."
+    except aiohttp.ClientResponseError as e:
+        if e.status == 400:
+            return False, "❌ Invalid request. Please check your prompt and try again."
+        elif e.status == 401:
+            return False, "❌ Invalid API key. Please contact administrator."
+        elif e.status == 429:
+            return False, "⏱️ Rate limit exceeded. Please wait a moment and try again."
+        else:
+            return False, f"🚫 Server error: {e.status}. Please try again later."
+    except Exception as e:
+        logger.error(f"Unexpected error in image request: {e}")
+        return False, "❌ An unexpected error occurred. Please try again later."

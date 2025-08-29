@@ -21,6 +21,7 @@ playtypedb = mongodb.playtypedb
 skipdb = mongodb.skipmode
 sudoersdb = mongodb.sudoers
 usersdb = mongodb.tgusersdb
+modeldb = mongodb.model
 
 # Shifting to memory [mongo sucks often]
 active = []
@@ -644,3 +645,23 @@ async def remove_banned_user(user_id: int):
     if not is_gbanned:
         return
     return await blockeddb.delete_one({"user_id": user_id})
+
+
+async def get_model_settings() -> dict:
+    settings = await modeldb.find_one({"model": "settings"})
+    if not settings:
+        return {"tts": "athena", "image": "stable-diffusion"}
+    return settings["settings"]
+
+
+async def update_model_settings(settings: dict) -> bool:
+    current_settings = await get_model_settings()
+
+    updated_settings = {**current_settings, **settings}
+
+    await modeldb.update_one(
+        {"model": "settings"},
+        {"$set": {"settings": updated_settings}},
+        upsert=True
+    )
+    return True
