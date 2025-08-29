@@ -55,6 +55,9 @@ Introducing a **robust API** for Telegram Music Bots that allows **audio & video
 Contact US [𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](https://t.me/Api_and_promotion)
 
 > Online Documentation: https://tgapi.xbitcode.com/docs
+> Get your API key from :[ https://t.me/tgmusic_apibot](https://t.me/tgmusic_apibot)
+> Use your key in config.py
+> API key patter: xbit_10000000xx0233
 
 
 ---
