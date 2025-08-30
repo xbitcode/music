@@ -146,7 +146,7 @@ async def make_ai_request(query: str) -> tuple[bool, str]:
         model_settings = await get_model_settings()
         ai_model = model_settings.get("ai", "GPT4")
             
-        url = f"{AI_ENDPOINT}/ai"
+        url = f"{AI_ENDPOINT}/ai/chat"
         headers = {
             "Content-Type": "application/json",
             "x-api-key": AI_KEY,
