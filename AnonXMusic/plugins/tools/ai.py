@@ -142,10 +142,15 @@ async def make_ai_request(query: str) -> tuple[bool, str]:
         if not AI_ENDPOINT or not AI_KEY:
             return False, "❌ AI configuration is missing. Please contact administrator."
             
+        # Get current AI model from database
+        model_settings = await get_model_settings()
+        ai_model = model_settings.get("ai", "GPT4")
+            
         url = f"{AI_ENDPOINT}/ai"
         headers = {
             "Content-Type": "application/json",
-            "x-api-key": AI_KEY
+            "x-api-key": AI_KEY,
+            "model": ai_model
         }
         data = {"message": query}
         

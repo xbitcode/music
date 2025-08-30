@@ -650,7 +650,7 @@ async def remove_banned_user(user_id: int):
 async def get_model_settings() -> dict:
     settings = await modeldb.find_one({"model": "settings"})
     if not settings:
-        return {"tts": "athena", "image": "stable-diffusion"}
+        return {"tts": "athena", "image": "stable-diffusion", "ai": "GPT4"}
     return settings["settings"]
 
 
