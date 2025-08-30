@@ -5,6 +5,7 @@ from typing import Union
 from pyrogram import filters, types
 from pyrogram.types import InlineKeyboardMarkup, Message, InlineKeyboardButton, CallbackQuery
 from pyrogram.errors import MessageNotModified
+from pyrogram.enums import ParseMode
 
 from AnonXMusic import app
 from AnonXMusic.misc import SUDOERS
@@ -87,7 +88,7 @@ async def help_com_group(client, message: Message, _):
 
 @app.on_callback_query(filters.regex("help_callback") & ~BANNED_USERS)
 @languageCB
-async def helper_cb(client, CallbackQuery, _):
+async def helper_cb(client, CallbackQuery:CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     cb = callback_data.split(None, 1)[1]
     keyboard = help_back_markup(_)
@@ -142,7 +143,7 @@ async def helper_cb(client, CallbackQuery, _):
                 )
             ]
         ]
-        await CallbackQuery.edit_message_text(f"TTS and Image Model Settings \n\n[Check Docs here]({YTPROXY_URL}/docs)", reply_markup=InlineKeyboardMarkup(btn))
+        await CallbackQuery.edit_message_text(f"TTS and Image Model Settings \n\n[Check Docs here]({YTPROXY_URL}/docs)", reply_markup=InlineKeyboardMarkup(btn),parse_mode=ParseMode.DEFAULT)
     elif cb == "hb17":
         model_settings = await get_model_settings()
         current_tts = model_settings.get("tts", "athena")
@@ -159,7 +160,8 @@ async def helper_cb(client, CallbackQuery, _):
                                         text=_["BACK_BUTTON"],
                                         callback_data="help_callback hb16"
                                     )
-                                ]])
+                                ]]),
+                                parse_mode=ParseMode.DEFAULT
                 )
             except MessageNotModified:
                 pass
@@ -198,7 +200,8 @@ async def helper_cb(client, CallbackQuery, _):
         try:
             await CallbackQuery.edit_message_text(
                 "🎤 **TTS Model Settings**\n\nSelect a voice model \n\n [Check out the samples here](https://t.me/amigr8/27)",
-                reply_markup=InlineKeyboardMarkup(buttons)
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.DEFAULT
             )
         except MessageNotModified:
             pass
@@ -218,7 +221,8 @@ async def helper_cb(client, CallbackQuery, _):
                             text=_["BACK_BUTTON"],
                             callback_data="help_callback hb16"
                         )
-                    ]])
+                    ]]),
+                    parse_mode=ParseMode.DEFAULT
                 )
             except MessageNotModified:
                 pass
@@ -250,7 +254,8 @@ async def helper_cb(client, CallbackQuery, _):
         try:
             await CallbackQuery.edit_message_text(
                 "🎨 **Image Model Settings**\n\nSelect an image generation model:",
-                reply_markup=InlineKeyboardMarkup(buttons)
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.DEFAULT
             )
         except MessageNotModified:
             pass
@@ -311,7 +316,8 @@ async def tts_model_callback(client, CallbackQuery:CallbackQuery, _):
             try:
                 await CallbackQuery.edit_message_text(
                     f"✅ **TTS Model Updated!**\n\nCurrent model: **{model_name}**",
-                    reply_markup=InlineKeyboardMarkup(buttons)
+                    reply_markup=InlineKeyboardMarkup(buttons),
+                    parse_mode=ParseMode.DEFAULT
                 )
             except MessageNotModified:
                 pass
@@ -324,7 +330,8 @@ async def tts_model_callback(client, CallbackQuery:CallbackQuery, _):
                             text=_["BACK_BUTTON"],
                             callback_data="help_callback hb16"
                         )
-                    ]])
+                    ]]),
+                    parse_mode=ParseMode.DEFAULT
                 )
             except MessageNotModified:
                 pass
@@ -337,7 +344,8 @@ async def tts_model_callback(client, CallbackQuery:CallbackQuery, _):
                         text=_["BACK_BUTTON"],
                         callback_data="help_callback hb16"
                     )
-                ]])
+                ]]),
+                parse_mode=ParseMode.DEFAULT
             )
         except MessageNotModified:
             pass
@@ -389,7 +397,8 @@ async def image_model_callback(client, CallbackQuery: CallbackQuery, _):
             try:
                 await CallbackQuery.edit_message_text(
                     f"✅ **Image Model Updated!**\n\nCurrent model: **{model_name}**",
-                    reply_markup=InlineKeyboardMarkup(buttons)
+                    reply_markup=InlineKeyboardMarkup(buttons),
+                    parse_mode=ParseMode.DEFAULT
                 )
             except MessageNotModified:
                 pass
@@ -402,7 +411,8 @@ async def image_model_callback(client, CallbackQuery: CallbackQuery, _):
                             text=_["BACK_BUTTON"],
                             callback_data="help_callback hb16"
                         )
-                    ]])
+                    ]]),
+                    parse_mode=ParseMode.DEFAULT
                 )
             except MessageNotModified:
                 pass
@@ -415,7 +425,8 @@ async def image_model_callback(client, CallbackQuery: CallbackQuery, _):
                         text=_["BACK_BUTTON"],
                         callback_data="help_callback hb16"
                     )
-                ]])
+                ]]),
+                parse_mode=ParseMode.DEFAULT
             )
         except MessageNotModified:
             pass

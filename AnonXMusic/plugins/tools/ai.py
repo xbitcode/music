@@ -17,6 +17,7 @@ import random
 import logging
 import asyncio
 import aiohttp
+import io
 
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
@@ -283,16 +284,17 @@ async def tts_command(client, message: Message):
     if not check_rate_limit(user_id):
         await handle_flood_wait(message.reply_text,
             f"⏱️ Please wait {RATE_LIMIT_SECONDS} seconds between TTS requests.",
-            quote=True
+            quote=True,
+            parse_mode=ParseMode.MARKDOWN
         )
         return
 
     if len(message.command) < 2:
-        await handle_flood_wait(message.reply_text, "Please provide a text to convert to speech.", quote=True)
+        await handle_flood_wait(message.reply_text, "Please provide a text to convert to speech.", quote=True, parse_mode=ParseMode.MARKDOWN)
         return
 
     text = message.text.split(None, 1)[1].strip()
-    processing_msg = await handle_flood_wait(message.reply_text, "🔄 Processing your request...", quote=True)
+    processing_msg = await handle_flood_wait(message.reply_text, "🔄 Processing your request...", quote=True, parse_mode=ParseMode.MARKDOWN)
 
     task = asyncio.create_task(make_tts_request(text))
 
@@ -300,26 +302,28 @@ async def tts_command(client, message: Message):
     while not task.done():
         await asyncio.sleep(5)  # Wait 5 seconds
         if not task.done():
-            await handle_flood_wait(processing_msg.edit_text, random.choice(TTS_PROCESSING_MESSAGES))
+            await handle_flood_wait(processing_msg.edit_text, random.choice(TTS_PROCESSING_MESSAGES), parse_mode=ParseMode.MARKDOWN)
 
     # Get the result
     try:
         success, audio_bytes, model = task.result()
         if success:
             # Send the audio file
+            audio_bytes_io = io.BytesIO(audio_bytes)
+            audio_bytes_io.name = "tts_audio.mp3"
             await handle_flood_wait(message.reply_audio,
-                audio=audio_bytes,
-                title=f"TTS Audio - {model}",
-                performer="AI Assistant",
+                audio=audio_bytes_io,
+                title=f"{message.from_user.id}_{time.time()}",
                 caption=f"🎤 **Model:** {model}\n📝 **Text:** {text[:100]}{'...' if len(text) > 100 else ''}",
-                quote=True
+                quote=True,
+                parse_mode=ParseMode.MARKDOWN
             )
             await handle_flood_wait(processing_msg.delete)
         else:
-            await handle_flood_wait(processing_msg.edit_text, audio_bytes)
+            await handle_flood_wait(processing_msg.edit_text, audio_bytes, parse_mode=ParseMode.MARKDOWN)
     except Exception as e:
         logger.error(f"Error in tts_command: {e}")
-        await handle_flood_wait(processing_msg.edit_text, "❌ An unexpected error occurred. Please try again later.")
+        await handle_flood_wait(processing_msg.edit_text, "❌ An unexpected error occurred. Please try again later.", parse_mode=ParseMode.MARKDOWN)
 
 async def make_tts_request(text: str) -> tuple[bool, bytes | str, str]:
     """Make TTS API request with proper error handling"""
@@ -377,16 +381,17 @@ async def image_command(client, message: Message):
     if not check_rate_limit(user_id):
         await handle_flood_wait(message.reply_text,
             f"⏱️ Please wait {RATE_LIMIT_SECONDS} seconds between image requests.",
-            quote=True
+            quote=True,
+            parse_mode=ParseMode.MARKDOWN
         )
         return
 
     if len(message.command) < 2:
-        await handle_flood_wait(message.reply_text, "Please provide a description for the image.", quote=True)
+        await handle_flood_wait(message.reply_text, "Please provide a description for the image.", quote=True, parse_mode=ParseMode.MARKDOWN)
         return
 
     text = message.text.split(None, 1)[1].strip()
-    processing_msg = await handle_flood_wait(message.reply_text, "🎨 Processing your image request...", quote=True)
+    processing_msg = await handle_flood_wait(message.reply_text, "🎨 Processing your image request...", quote=True, parse_mode=ParseMode.MARKDOWN)
 
     task = asyncio.create_task(make_image_request(text))
 
@@ -394,21 +399,24 @@ async def image_command(client, message: Message):
     while not task.done():
         await asyncio.sleep(5)  # Wait 5 seconds
         if not task.done():
-            await handle_flood_wait(processing_msg.edit_text, random.choice(IMAGE_PROCESSING_MESSAGES))
+            await handle_flood_wait(processing_msg.edit_text, random.choice(IMAGE_PROCESSING_MESSAGES), parse_mode=ParseMode.MARKDOWN)
 
     # Get the result
     try:
         success, image_bytes = task.result()
         if success:
             # Send the image file
+            image_bytes_io = io.BytesIO(image_bytes)
+            image_bytes_io.name = "ai_generated_image.png"
             await handle_flood_wait(message.reply_photo,
-                photo=image_bytes,
+                photo=image_bytes_io,
                 caption=f"🎨 **AI Generated Image**\n📝 **Prompt:** {text[:200]}{'...' if len(text) > 200 else ''}",
-                quote=True
+                quote=True,
+                parse_mode=ParseMode.MARKDOWN
             )
             await handle_flood_wait(processing_msg.delete)
         else:
-            await handle_flood_wait(processing_msg.edit_text, image_bytes)
+            await handle_flood_wait(processing_msg.edit_text, image_bytes, parse_mode=ParseMode.MARKDOWN)
     except Exception as e:
         logger.error(f"Error in image_command: {e}")
         await handle_flood_wait(processing_msg.edit_text, "❌ An unexpected error occurred. Please try again later.")
