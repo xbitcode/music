@@ -1,5 +1,5 @@
 {
-    "name": "ᴀɴᴏɴ ダ ᴍᴜsɪᴄ",
+    "name": "xBitMuisc",
     "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
     "logo": "https://imgur.com/a/zdIwpug",
     "keywords": [
@@ -34,7 +34,7 @@
       },
       "YTPROXY_URL": {
         "description": "YT Proxy Server Endpoint",
-        "value": "https://tubed.okflix.top",
+        "value": "https://tgapi.xbitcode.com",
         "required": true
       },
       "OWNER_ID": {
