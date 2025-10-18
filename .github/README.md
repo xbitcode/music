@@ -62,10 +62,7 @@ Contact US [𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](http
 
 ---
 
-🧩 Integration
-
-Get started with our open-source bot example:
-Repo: https://github.com/xbitcode/StrangerMusicBot.git
+## ⚡️ Getting Started [[Documentation](https://stranger-organization.gitbook.io/stranger-music-docs/local-vps-deploy)]
 
 ---
 
