@@ -7,33 +7,33 @@ from pyrogram import filters
 load_dotenv()
 
 # Get this value from my.telegram.org/apps
-API_ID = int(getenv("API_ID"))
-API_HASH = getenv("API_HASH")
+API_ID = int(getenv("22577696"))
+API_HASH = getenv("17b56e729df73bff341fc81ae96672a2")
 
 # Get your token from @BotFather on Telegram.
-BOT_TOKEN = getenv("BOT_TOKEN")
+BOT_TOKEN = getenv("8410582894:AAHDoEOrSpfu3BTm2ZKg01tde3uji3fPc-0")
 
 # Get your mongo url from cloud.mongodb.com
-MONGO_DB_URI = getenv("MONGO_DB_URI", None)
+MONGO_DB_URI = getenv("mongodb+srv://ronakbots79:ronakbots79@cluster0.1deo2xn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", None)
 
 # Vars For API End Pont.
 YTPROXY_URL = getenv("YTPROXY_URL", 'https://tgapi.xbitcode.com') ## xBit Music Endpoint.
-YT_API_KEY = getenv("YT_API_KEY" , None ) ## Your API key like: xbit_10000000xx0233 Get from  https://t.me/tgmusic_apibot
+YT_API_KEY = getenv("YT_API_KEY" , xbit_JOVNSLQ32CY8A21MTKHCWC ) ## Your API key like: xbit_10000000xx0233 Get from  https://t.me/tgmusic_apibot
 
 ## Other vaes
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 300))
 
 # Chat id of a group for logging bot's activities
-LOGGER_ID = int(getenv("LOGGER_ID"))
+LOGGER_ID = int(getenv("-1002696544810"))
 
 # Get this value from @FallenxBot on Telegram by /id
-OWNER_ID = int(getenv("OWNER_ID"))
+OWNER_ID = int(getenv("8062057149"))
 
 ## Fill these variables if you're deploying on heroku.
 # Your heroku app name
-HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
+HEROKU_APP_NAME = getenv("SUBHAM SINGH")
 # Get it from http://dashboard.heroku.com/account
-HEROKU_API_KEY = getenv("HEROKU_API_KEY")
+HEROKU_API_KEY = getenv("HRKU-AAHu7VzpUpRT2-3etRmU7ihCxsXbdCSqKVTv9Xbm9amQ")
 
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
@@ -44,8 +44,8 @@ GIT_TOKEN = getenv(
     "GIT_TOKEN", None
 )  # Fill this variable if your upstream repository is private
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/amigr8")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/randomlychats")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/ronakgupta009")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/+jKgVXuFnvcRkN2Q1")
 
 # Set this to True if you want the assistant to automatically leave chats after an interval
 AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", True))
@@ -74,7 +74,7 @@ CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "3600"))   #60*60
 
 
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
-STRING1 = getenv("STRING_SESSION", None)
+STRING1 = getenv("STRING_SESSION", BAFYgiAAr5BnFxWf2uQEJKWyBtrjbnixIr4uJNExYTU_pwIgPOiPn7pgrLCCRiJEAGnK8uf23qVEu30PJGF4XSMpJLKb3EjfPkWQG9Q2oAASUYg5lJn-FO23VVtfuuLDVZ9w4p4s19sYE37EgA7Q7pwDQNE12KQdNewpLjzv0O57NrFiMYim55AUjCd6M2-1x6dGs5Yj-nU9xwjT7B0MKhGjGvWJVvJXmpvU2HhS4xMDrMkY-dnkUM92zrDNSp0Rr3dndjRMB2Xiy9Vy85g_HmM6K_w3DMhxWQIUuOGxZM0hVjpAkKUBjs_f8bwXB6vAKqboMqIxLlwIeW9W_rRqM47dIbfUMgAAAAFrjW_YAA)
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
@@ -89,12 +89,12 @@ autoclean = []
 confirmer = {}
 file_cache: dict[str, float] = {}
 
-START_IMG_URL = ["https://te.legra.ph/file/5fd13f2cc0d03bce9f7f2.jpg",
+START_IMG_URL = ["https://graph.org/file/c63c8808dca558c839f13-1af62cd14a044e2eb8.jpg",
                  "https://te.legra.ph/file/c15d01b3e6b40ea141dc9.jpg",
                  "https://te.legra.ph/file/5fd13f2cc0d03bce9f7f2.jpg"]
     
 PING_IMG_URL = getenv(
-    "PING_IMG_URL", "https://telegra.ph/file/87f680aead03443f291b0.jpg"
+    "PING_IMG_URL", "https://graph.org/file/f87fba6613e44e4b8a289-cff8070932b9f8290a.jpg"
 )
 PLAYLIST_IMG_URL = "https://graph.org/file/c95a687e777b55be1c792.jpg"
 STATS_IMG_URL = "https://telegra.ph/file/edd388a42dd2c499fd868.jpg"
