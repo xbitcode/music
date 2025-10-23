@@ -104,6 +104,11 @@ class YouTubeAPI:
     async def _get_video_details(self, link: str, limit: int = 20) -> Union[dict, None]:
         """Helper function to get video details with duration limit and error handling"""
         try:
+            if not link:
+                return None
+            link = str(link).strip()
+            if not link:
+                return None
             results = VideosSearch(link, limit=limit)
             search_results = (await results.next()).get("result", [])
 
