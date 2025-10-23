@@ -421,54 +421,43 @@ class YouTubeAPI:
             session.mount('https://', HTTPAdapter(max_retries=retries))
             return session
 
-        async def download_with_curl(url, filepath, headers=None, max_retries=3):
-            
-            cmd = [
-                "curl",
-                "-L",  # Follow redirects
-                "-C", "-",  # Resume partial downloads
-                "--retry", str(max_retries),
-                "--retry-delay", "1", 
-                "--retry-max-time", "600",
-                "--connect-timeout", "30",
-                "--max-time", "60",  # 1 minute max
-                "--silent",  # Silent mode
-                "--show-error",  # Show errors
-                "--fail",  # Fail silently on server errors
-                "-o", filepath,
-                url
-            ]
-            
-            # Add headers  x-api-key for authentication required now in 3.5.0
+        async def download_with_ytdlp(url, filepath, headers=None, max_retries=3):
+            default_headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9",
+                "Referer": "https://www.youtube.com/",
+            }
+            merged_headers = default_headers.copy()
             if headers:
-                for key, value in headers.items():
-                    cmd.extend(["-H", f"{key}: {value}"])
-            
+                merged_headers.update(headers)
+
+            # yt-dlp handles direct media URLs, reuse the running loop to avoid blocking the event loop.
+            def run_download():
+                ydl_opts = {
+                    "quiet": True,
+                    "no_warnings": True,
+                    "outtmpl": filepath,
+                    "force_overwrites": True,
+                    "nopart": True,
+                    "retries": max_retries,
+                    "http_headers": merged_headers,
+                    "concurrent_fragment_downloads": 8,
+                }
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([url])
+
             try:
-                process = await asyncio.create_subprocess_exec(
-                    *cmd,
-                    stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.PIPE
-                )
-                
-                stdout, stderr = await process.communicate()
-                
-                if process.returncode == 0 and os.path.exists(filepath):
-                    file_size = os.path.getsize(filepath)
-                    return filepath
-                else:
-                    error_msg = stderr.decode() if stderr else "Unknown curl error"
-                    logger.error(f"Curl download failed: {error_msg}")
-
-                    if os.path.exists(filepath):
-                        os.remove(filepath)
-                    return None
-                    
-            except Exception as e:
-
                 if os.path.exists(filepath):
                     os.remove(filepath)
-                return None
+                await loop.run_in_executor(None, run_download)
+                if os.path.exists(filepath):
+                    return filepath
+            except Exception as e:
+                logger.error(f"yt-dlp download failed: {str(e)}")
+            if os.path.exists(filepath):
+                os.remove(filepath)
+            return None
 
         async def download_with_requests_fallback(url, filepath, headers=None):
             try:
@@ -533,7 +522,7 @@ class YouTubeAPI:
                     audio_url = songData['audio_url']
                     #audio_url = base64.b64decode(songlink).decode() remove in 3.5.0
                     
-                    result = await download_with_curl(audio_url, filepath, headers)
+                    result = await download_with_ytdlp(audio_url, filepath, headers)
                     if result:
                         return result
                     
@@ -595,7 +584,7 @@ class YouTubeAPI:
                     video_url = videoData['video_url']
                     #video_url = base64.b64decode(videolink).decode() removed in 3.5.0
                     
-                    result = await download_with_curl(video_url, filepath, headers)
+                    result = await download_with_ytdlp(video_url, filepath, headers)
                     if result:
                         return result
                     
