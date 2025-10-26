@@ -130,7 +130,7 @@ class YouTubeAPI:
 
                     return result
 
-                except (ValueError, IndexError):
+                except:
                     continue
             
             search = CustomSearch(query=link, searchPreferences="EgIYAw==" ,limit=1)
