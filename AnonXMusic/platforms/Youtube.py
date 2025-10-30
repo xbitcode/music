@@ -112,32 +112,10 @@ class YouTubeAPI:
             results = VideosSearch(link, limit=limit)
             search_results = (await results.next()).get("result", [])
 
-            for result in search_results:
-                duration_str = result.get("duration", "0:00")
-
-                # Convert duration to seconds
-                try:
-                    parts = duration_str.split(":")
-                    duration_secs = 0
-                    if len(parts) == 3:  # HH:MM:SS
-                        duration_secs = int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
-                    elif len(parts) == 2:  # MM:SS
-                        duration_secs = int(parts[0]) * 60 + int(parts[1])
-
-                    # Skip videos longer than 1 hour
-                    if duration_secs > 3600:
-                        continue
-
-                    return result
-
-                except:
-                    continue
-            
-            search = CustomSearch(query=link, searchPreferences="EgIYAw==" ,limit=1)
-            for res in (await search.next()).get("result", []):
-                return res
-
-            return None
+            if not search_results:
+                return None
+            else:
+                return search_results[0]
 
         except Exception as e:
             LOGGER(__name__).error(f"Error in _get_video_details: {str(e)}")
