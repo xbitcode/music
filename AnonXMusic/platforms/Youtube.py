@@ -101,25 +101,6 @@ class YouTubeAPI:
             "existing_files": 0
         }
 
-    async def _get_video_details(self, link: str, limit: int = 20) -> Union[dict, None]:
-        """Helper function to get video details with duration limit and error handling"""
-        try:
-            if not link:
-                return None
-            link = str(link).strip()
-            if not link:
-                return None
-            results = VideosSearch(link, limit=limit)
-            search_results = (await results.next()).get("result", [])
-
-            if not search_results:
-                return None
-            else:
-                return search_results[0]
-
-        except Exception as e:
-            LOGGER(__name__).error(f"Error in _get_video_details: {str(e)}")
-            return None
 
     async def exists(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
@@ -164,20 +145,16 @@ class YouTubeAPI:
             link = link.split("&si=")[0]
 
 
-        result = await self._get_video_details(link)
-        if not result:
-            raise ValueError("No suitable video found (duration > 1 hour or video unavailable)")
-
-        title = result["title"]
-        duration_min = result["duration"]
-        thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-        vidid = result["id"]
-
-        if str(duration_min) == "None":
-            duration_sec = 0
-        else:
-            duration_sec = int(time_to_seconds(duration_min))
-
+        results = VideosSearch(link, limit=1)
+        for result in (await results.next())["result"]:
+            title = result["title"]
+            duration_min = result["duration"]
+            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+            vidid = result["id"]
+            if str(duration_min) == "None":
+                duration_sec = 0
+            else:
+                duration_sec = int(time_to_seconds(duration_min))
         return title, duration_min, duration_sec, thumbnail, vidid
 
     async def title(self, link: str, videoid: Union[bool, str] = None):
@@ -190,10 +167,10 @@ class YouTubeAPI:
         elif "&si=" in link:
             link = link.split("&si=")[0]
             
-        result = await self._get_video_details(link)
-        if not result:
-            raise ValueError("No suitable video found (duration > 1 hour or video unavailable)")
-        return result["title"]
+        results = VideosSearch(link, limit=1)
+        for result in (await results.next())["result"]:
+            title = result["title"]
+        return title
 
     async def duration(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
@@ -205,10 +182,10 @@ class YouTubeAPI:
         elif "&si=" in link:
             link = link.split("&si=")[0]
 
-        result = await self._get_video_details(link)
-        if not result:
-            raise ValueError("No suitable video found (duration > 1 hour or video unavailable)")
-        return result["duration"]
+        results = VideosSearch(link, limit=1)
+        for result in (await results.next())["result"]:
+            duration = result["duration"]
+        return duration
 
     async def thumbnail(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
@@ -220,10 +197,10 @@ class YouTubeAPI:
         elif "&si=" in link:
             link = link.split("&si=")[0]
 
-        result = await self._get_video_details(link)
-        if not result:
-            raise ValueError("No suitable video found (duration > 1 hour or video unavailable)")
-        return result["thumbnails"][0]["url"].split("?")[0]
+        results = VideosSearch(link, limit=1)
+        for result in (await results.next())["result"]:
+            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+        return thumbnail
 
     async def video(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
@@ -282,18 +259,21 @@ class YouTubeAPI:
         elif "&si=" in link:
             link = link.split("&si=")[0]
 
-        result = await self._get_video_details(link)
-        if not result:
-            raise ValueError("No suitable video found (duration > 1 hour or video unavailable)")
-
+        results = VideosSearch(link, limit=1)
+        for result in (await results.next())["result"]:
+            title = result["title"]
+            duration_min = result["duration"]
+            vidid = result["id"]
+            yturl = result["link"]
+            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
         track_details = {
-            "title": result["title"],
-            "link": result["link"],
-            "vidid": result["id"],
-            "duration_min": result["duration"],
-            "thumb": result["thumbnails"][0]["url"].split("?")[0],
+            "title": title,
+            "link": yturl,
+            "vidid": vidid,
+            "duration_min": duration_min,
+            "thumb": thumbnail,
         }
-        return track_details, result["id"]
+        return track_details, vidid
 
     async def formats(self, link: str, videoid: Union[bool, str] = None):
         if videoid:
