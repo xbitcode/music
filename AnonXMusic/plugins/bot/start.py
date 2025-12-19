@@ -8,7 +8,7 @@ from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.errors.exceptions.not_acceptable_406 import ChannelPrivate
 from pyrogram.errors.exceptions.flood_420 import SlowmodeWait
-from youtubesearchpython.__future__ import VideosSearch
+from ytSearch import VideosSearch
 
 import config
 from AnonXMusic import app

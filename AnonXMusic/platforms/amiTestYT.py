@@ -2,7 +2,7 @@ import asyncio
 import json
 import sys
 import traceback
-from youtubesearchpython.__future__ import VideosSearch, CustomSearch
+from ytSearch import VideosSearch, CustomSearch
 
 
 ## Test file to check youtubesearchpython functionality
