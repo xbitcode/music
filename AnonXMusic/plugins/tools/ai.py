@@ -228,7 +228,7 @@ async def api_stats(client, message: Message):
     
     try:
         if not AI_ENDPOINT or not AI_KEY:
-            await handle_flood_wait(message.reply_text, "❌ Not using xBit API endpoint please contact @amigr8bot.")
+            await handle_flood_wait(message.reply_text, "❌ Not using xBit API endpoint please contact @amjiddader.")
             return
             
         status_msg = await handle_flood_wait(message.reply_text, "🔍 Checking API status...", quote=True)
