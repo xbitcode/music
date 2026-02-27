@@ -90,32 +90,16 @@ async def groupinfo(client, message: Message):
 
 ## /id function here to show all possbile data 
 
-@app.on_message(filters.command(['id', 'me', 'info', 'sgb']))
+@app.on_message(filters.command(['id', 'me', 'info']))
 async def user_info(client, message: Message):
     replied_user = message.reply_to_message.from_user if message.reply_to_message else message.from_user
     if not replied_user:
         return await message.reply_text("Cannot retrieve user information.")
 
-    # Fetch user information
-    name = replied_user.first_name or "Unknown"
-    username = f"@{replied_user.username}" if replied_user.username else "Unknown"
-    dc_id = replied_user.dc_id if hasattr(replied_user, 'dc_id') else "Unknown"
-    bio = replied_user.bio if hasattr(replied_user, 'bio') else "Unknown"
-    joined_date = replied_user.joined_date.strftime("%Y-%m-%d") if hasattr(replied_user, 'joined_date') else "Unknown"
     user_id = replied_user.id
-    language_code = replied_user.language_code if hasattr(replied_user, 'language_code') else "Unknown"
-    status = replied_user.status if hasattr(replied_user, 'status') else "Unknown"
 
     # Create info message
-    info_text = f"😁User Information😁\n\n"
-    info_text += f"Name: {name}\n"
-    info_text += f"Username: {username}\n"
-    info_text += f"DC ID: {dc_id}\n"
-    info_text += f"BIO: {bio}\n"
-    info_text += f"Joined Since: {joined_date}\n"
     info_text += f"User ID: <code>{user_id}</code>\n"
-    info_text += f"Language Code: {language_code}\n"
-    info_text += f"Status: {status}\n\n"
-    info_text += f"C by @amigr8Bot\n"
+    info_text += f"First Name: Tumko kud ka naam nhi pta ?\n"
 
     await message.reply_text(info_text)
