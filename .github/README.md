@@ -33,14 +33,22 @@ Introducing a **robust API** for Telegram Music Bots that allows **audio & video
 
 ## 💰 Pricing & Plans
 
-| 💼 Plan        | ⚡ Rate Limit         | ♾️ Usage     | 💵 Price (INR/month) | 🔑 Access Type    |
-|---------------|-----------------------|-------------|----------------------|------------------|
-| 🟢 **Lite**      | 3000 requests/day     | per month    | ₹99                  | API_KEY          |
-| 🔵 **Basic**     | 5000 requests/day     | per month    | ₹179                 | API_KEY          |
-| 🟣 **Pro**       | 10000 requests/day    | per month    | ₹349                 | API_KEY          |
-| 🔴 **Ultra pro** | 20000 requests/day    | per month    | ₹699                 | API_KEY          |
+<!-- PRICING_START -->
+| 💼 Plan | ⚡ Rate Limit | 💵 Price (INR/month) | 💰 Discount |
+|---------|--------------|---------------------|-------------|
+| 🆓 **Free** | 150 requests/day | ₹0 | - |
+| 🟢 **Lite** | 1,500 requests/day | ₹49 | 35% OFF |
+| 🔵 **Basic** | 3,000 requests/day | ₹99 | 40% OFF |
+| 🟡 **Starter** | 5,000 requests/day | ₹149 | 50% OFF |
+| 🟣 **Standard** | 10,000 requests/day | ₹289 | 45% OFF |
+| 🔴 **Pro** | 25,000 requests/day | ₹569 | 50% OFF |
+| 🟠 **Business** | 50,000 requests/day | ₹1,129 | - |
+| ⚫ **Enterprise** | 100,000 requests/day | ₹1,879 | - |
+| 💎 **Ultra** | 150,000 requests/day | ₹2,389 | - |
+| 🚀 **Bussiness lite** | 35,000 requests/day | ₹854 | 35% OFF |
+<!-- PRICING_END -->
 
-> **Note:** API keys are unique to each user. The Unlimited plan is tied to a single IP address.
+> Prices may vary. For the latest pricing, visit [music.xbitcode.com](https://music.xbitcode.com/#pricing)
 
 ---
 
@@ -52,12 +60,10 @@ Introducing a **robust API** for Telegram Music Bots that allows **audio & video
 
 🔑 API Access Key
 
-Contact US [𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](https://t.me/Api_and_promotion)
-
-> Online Documentation: https://tgapi.xbitcode.com/docs
-> Get your API key from :[ https://t.me/tgmusic_apibot](https://t.me/tgmusic_apibot)
+> Online Documentation: [music.xbitcode.com/dashboard/docs](https://music.xbitcode.com/dashboard/docs)
+> Get your API key from: [music.xbitcode.com](https://music.xbitcode.com/auth/signin)
 > Use your key in config.py
-> API key patter: xbit_10000000xx0233
+> API key pattern: `xbit_10000000xx0233`
 
 
 ---
@@ -70,9 +76,10 @@ Contact US [𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](http
 
 Need help or want to subscribe?
 
-Telegram:[𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](https://t.me/Api_and_promotion)
+Website: [music.xbitcode.com](https://music.xbitcode.com)
+Telegram: [𝐀𝐏𝐈 𝐚𝐧𝐝 𝐩𝐫𝐨𝐦𝐨𝐭𝐢𝐨𝐧](https://t.me/Api_and_promotion)
 
-Maintained by:  [Xbitcode](https://xbitcode.com/)
+Maintained by: [Xbitcode](https://xbitcode.com/)
 
 ---
 
@@ -100,32 +107,38 @@ Users must follow YouTube’s Terms of Service and Telegram’s Bot Policy.
 </h3>
 
 - Get your [Necessary Variables](https://github.com/xbitcode/music/blob/main/sample.env)
-- Upgrade and Update by :
-`sudo apt-get update && sudo apt-get upgrade -y`
-- Install Ffmpeg by :
-`sudo apt-get install python3-pip ffmpeg -y`
-- Install required packages by :
-`sudo apt-get install python3-pip -y`
-- Install pip by :
-`sudo pip3 install -U pip`
-- Install Node js by :
-`curl -fssL https://deb.nodesource.com/setup_19.x | sudo -E bash - && sudo apt-get install nodejs -y && npm i -g npm`
-- Clone the repository by :
-`git clone https://github.com/xbitcode/music && cd music`
-- Install requirements by :
-`pip3 install -U -r requirements.txt`
-- Fill your variables in the env by :
-`vi sample.env`<br>
-Press `I` on the keyboard for editing env<br>
-Press `Ctrl+C` when you're done with editing env and `:wq` to save the env<br>
-- Rename the env file by :
-`mv sample.env .env`
-- Install tmux to keep running your bot when you close the terminal by :
-`sudo apt install tmux && tmux`
-- Finally run the bot by :
-`bash start`
-- For getting out from tmux session : Press `Ctrl+b` and then `d`<br>
-━━━━━━━━━━━━━━━━━━━━
+
+```bash
+# Clone the repository
+git clone https://github.com/xbitcode/music && cd music
+
+# Update system packages
+sudo apt-get update && sudo apt-get upgrade -y
+
+# Install ffmpeg
+sudo apt-get install ffmpeg -y
+
+# Install uv (Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.local/bin/env
+
+# Create virtual environment and install dependencies
+uv venv && uv sync
+
+# Set up your environment variables
+cp sample.env .env
+vi .env
+```
+> Press `I` to edit, fill in your variables, then press `Esc` and type `:wq` to save.
+
+```bash
+# Install tmux to keep the bot running after closing terminal
+sudo apt install tmux && tmux
+
+# Start the bot
+bash start
+```
+> To detach from tmux: Press `Ctrl+b` then `d`
 
 <h3 align="center">
     ─「 sᴜᴩᴩᴏʀᴛ 」─
