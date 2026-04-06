@@ -9,11 +9,12 @@ from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import (
     NoActiveGroupCall,
 )
-from ntgcalls import TelegramServerError
+from ntgcalls import TelegramServerError, FFmpegError
 from pytgcalls.types import Update, StreamEnded
 from pytgcalls import filters as fl
 from pytgcalls.types import AudioQuality, VideoQuality
 from pytgcalls.types import MediaStream,ChatUpdate
+from pytgcalls.types.calls import GroupCallConfig
 
 import config
 from config import autoclean
@@ -317,7 +318,8 @@ class Call(PyTgCalls):
         try:
             await assistant.play(
                 chat_id,
-                stream
+                stream,
+                config=GroupCallConfig(auto_start=False),
             )
             # await assistant.join_group_call(
             #     chat_id,
@@ -326,8 +328,11 @@ class Call(PyTgCalls):
             # )
         except NoActiveGroupCall:
             raise AssistantErr(_["call_8"])
-        except AlreadyJoinedError:
-            raise AssistantErr(_["call_9"])
+        except FFmpegError:
+            LOGGER(__name__).warning("ffmpeg/ffprobe is not installed on the system")
+            raise AssistantErr(
+                "⚠️ <b>ffmpeg</b> is not installed on this server.\n\nPlease install it using: <code>apt install ffmpeg</code>"
+            )
         except TelegramServerError:
             raise AssistantErr(_["call_10"])
         await add_active_chat(chat_id)
