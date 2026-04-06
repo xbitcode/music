@@ -179,11 +179,11 @@ bash start
 
 <br/>
 
-[![Support Group](https://img.shields.io/badge/💬%20Support%20Group-Join%20Now-26A5E4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0a0a1a)](https://t.me/stranger_support)
+[![Support Group](https://img.shields.io/badge/💬%20Support%20Group-Join%20Now-26A5E4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0a0a1a)](https://t.me/+rr57vjMAQP02NDll)
 &nbsp;&nbsp;
 [![Updates Channel](https://img.shields.io/badge/📢%20Updates%20Channel-Subscribe-26A5E4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0a0a1a)](https://telegram.me/Ace_networkop)
 &nbsp;&nbsp;
-[![API & Promo](https://img.shields.io/badge/🚀%20API%20%26%20Promo-Contact%20Us-A855F7?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0a0a1a)](https://t.me/Api_and_promotion)
+[![ Promo](https://img.shields.io/badge/🚀%20API%20%26%20Promo-Contact%20Us-A855F7?style=for-the-badge&logo=telegram&logoColor=white&labelColor=0a0a1a)](https://t.me/MR_CUTE_X)
 
 <br/>
 
@@ -192,7 +192,7 @@ bash start
 | 🌐 **Website** | [music.xbitcode.com](https://music.xbitcode.com) |
 | 💬 **Support Group** | [t.me/stranger_support](https://t.me/stranger_support) |
 | 📢 **Updates Channel** | [t.me/Ace_networkop](https://telegram.me/Ace_networkop) |
-| 🔑 **API & Promotions** | [t.me/Api_and_promotion](https://t.me/Api_and_promotion) |
+| 🔑 **Promotions** | [t.me/Api_and_promotion](https://t.me/MR_CUTE_X) |
 | 🏢 **Maintained by** | [xbitcode.com](https://xbitcode.com/) |
 
 </div>
