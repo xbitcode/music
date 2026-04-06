@@ -4,7 +4,7 @@
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=12,20,24&height=230&section=header&text=XBITCODE%20MUSIC&fontSize=60&fontColor=fff&animation=fadeIn&fontAlignY=55&stroke=A855F7&strokeWidth=2&desc=⚡%20Next-Gen%20Telegram%20Music%20Bot%20•%20Powered%20by%20XBitcode%20API&descAlignY=75&descSize=15&descColor=cccccc" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=12,20,24&height=230&section=header&text=XBITCODE%20MUSIC&fontSize=60&fontColor=fff&animation=fadeIn&fontAlignY=55&stroke=A855F7&strokeWidth=2&desc=⚡%20Telegram%20Music%20Bot%20•%20Powered%20by%20XBitcode%20API&descAlignY=75&descSize=15&descColor=cccccc" width="100%"/>
 
 </div>
 
