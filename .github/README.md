@@ -4,13 +4,14 @@
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=12,20,24&height=230&section=header&text=XBITCODE%20MUSIC&fontSize=60&fontColor=fff&animation=fadeIn&fontAlignY=55&stroke=A855F7&strokeWidth=2&desc=⚡%20Telegram%20Music%20Bot%20•%20Powered%20by%20XBitcode%20API&descAlignY=75&descSize=15&descColor=cccccc" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,30:302b63,60:7c3aed,85:a855f7,100:ec4899&height=260&section=header&text=🎵%20XBITCODE%20MUSIC&fontSize=62&fontColor=ffffff&animation=twinkling&fontAlignY=45&stroke=ffffff&strokeWidth=1&desc=⚡%20Next-Gen%20Telegram%20Music%20Bot%20•%20Powered%20by%20XBitcode%20API&descAlignY=68&descSize=16&descColor=e2d9ff" width="100%"/>
 
 </div>
 
 <div align="center">
 
 <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=800&size=20&duration=2500&pause=800&color=A855F7&center=true&vCenter=true&multiline=false&width=700&height=45&lines=🎵+Stream+Audio+%26+Video+in+Telegram+Voice+Chats;🔒+Zero+Cookies+•+Zero+Errors+•+100%25+Uptime;⚡+Lightning-Fast+%7C+Secure+%7C+Developer-Ready;🚀+Powered+by+XBitcode+Music+API" alt="Typing SVG" />
+
 
 </div>
 
